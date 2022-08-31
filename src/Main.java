@@ -47,6 +47,7 @@ public class Main {
     // Visão de usuários
     static void userListView() {
         opt = "";
+
         while (!opt.equals("voltar")) {
             System.out.print(prompt_userlistview);
             opt = System.console().readLine();
@@ -62,23 +63,56 @@ public class Main {
 
             // Rotina de listagem dos usuários.
             if (opt.equals("listar")) {
-                say();
-                for (User u : user_base) say(u.id() + "  " + u.name() + "  " + u.role());
+                say("\nID \t\t\tFunção \t\t\tNome");
+                say("--------------------------------------------------------------------------------");
+                for (User u : user_base) say(u.id() + "\t\t\t" + u.role() + "\t\t\t" + u.name());
                 continue;
+            }
+
+            // Detalhes de um usuário específico
+            try {
+                long id = Long.parseLong(opt);
+                say("ID reconhecido: " + id);
+                for (User u : user_base) {
+                    if (u.id() == id) {
+                         userDetailView(u);
+                         break;
+                    }
+                }
+                say("Ninguém com ID " + id);
+            } catch (NumberFormatException nfe) {
+                say("Opção inválida.");
             }
         }
     }
 
 
 
-    // Visão de usuários
+    // Visão de detalhes e edição de usuário.
+    static void userDetailView(User user) {
+        opt = "";
+
+        say("\nDetalhes de usuário");
+        say("ID\t" + user.id());
+        say("Nome:\t" + user.name());
+        say("Função:\t" + user.role());
+
+        while(!opt.equals("voltar")) {
+            opt = ask("\nO que deseja fazer?");
+        }
+        opt = "";
+    }
+
+
+
+    // Visão de projetos
     static void projectListView() {
         System.out.println("Project List View TODO");
     }
 
 
 
-    // Visão de usuários
+    // Visão de atividades
     static void activityListView() {
         System.out.println("Activity List View TODO");
     }
