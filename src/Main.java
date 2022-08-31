@@ -1,12 +1,15 @@
 import java.io.File;                   // Import the File class
 import java.io.FileNotFoundException;  // Import this class to handle errors
 import java.util.Scanner;              // Import the Scanner class to read text files
+import java.util.Vector;               // Lista de tamanho variável
 
 public class Main {
 
-    static String prompt_init = "";
-    static String prompt_userlistview = "";
     static String opt = "";
+    static String prompt_init = "";
+
+    static String prompt_userlistview = "";
+    static Vector<User> user_base;
 
     public static void main(String[] args)
     {
@@ -38,21 +41,34 @@ public class Main {
             }
 
         }
-
-//         User u = new User(uname, 1);
-//         System.out.println("O nome é " + u.name);
     }
 
 
     // Visão de usuários
     static void userListView() {
-        System.out.println("User List View TODO");
+        opt = "";
+        while (!opt.equals("voltar")) {
+            System.out.print(prompt_userlistview);
+            opt = System.console().readLine();
+
+            if (opt.equals("novo")) {
+                long id = (long) (Math.random() * 1000000L);
+                say("Criando novo usuário com ID " + id);
+                String name = ask("Nome completo da pessoa");
+                String role = ask("Função");
+
+            }
+        }
     }
+
+
 
     // Visão de usuários
     static void projectListView() {
         System.out.println("Project List View TODO");
     }
+
+
 
     // Visão de usuários
     static void activityListView() {
@@ -61,6 +77,9 @@ public class Main {
 
 
         static void setup() {
+
+        // Inicia base de usuários
+        user_base = new Vector<User>();
 
         // Prompt inicial
         try {
@@ -89,5 +108,22 @@ public class Main {
             System.out.println("Arquivo de prompt da visão de lista de usuários não encontrado.");
             //e.printStackTrace();
         }
+    }
+
+    // Atalho para promts
+    static String ask(String prompt) {
+        System.out.println(prompt);
+        String answer = System.console().readLine();
+        return answer;
+    }
+
+    // Atalho para escrever tralha na tela.
+    static void say(String text) {
+        System.out.println(text);
+    }
+
+    // Atalho para escrever tralha na tela sem newline ao final.
+    static void say_(String text) {
+        System.out.print(text);
     }
 }
