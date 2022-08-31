@@ -4,39 +4,23 @@ public class User
     String uname;
     String urole;
 
-    public User()
+    public User(long id)
     {
-        uid = genID();
+        uid = id;
     }
 
-    public User(String name, String role)
+    public User(long id, String name, String role)
     {
-        uid = genID();
+        uid = id;
         uname = name;
         urole = role;
     }
 
-    long genID() {
-        return (long) (Math.random() * 1000000L);
-    }
+    public long id() { return uid; }
 
-    public String name() {
-        return uname;
-    }
+    public String name() { return uname; }
+    public void setName(String name) { uname = name; }
 
-    public void setName(String name) {
-        uname = name;
-    }
-
-    public String role() {
-        return urole;
-    }
-
-    public void setRole(String role) {
-        urole = role;
-    }
-
-    public long id() {
-        return uid;
-    }
+    public String role() { return urole; }
+    public void setRole(String role) { urole = role; }
 }

@@ -56,11 +56,12 @@ public class Main {
             // Rotina de adição de novo usuário.
             if (opt.equals("novo")) {
                 say("Criando novo usuário...");
+                long id = genID();
                 String name = ask("Nome completo da pessoa");
                 String role = ask("Função");
-                User u = new User(name, role);
+                User u = new User(id, name, role);
                 user_base.add(u);
-                say(name + " cadastrado com ID " + u.id());
+                say(name + " cadastrado com ID " + id);
                 continue;
             }
 
@@ -191,6 +192,9 @@ public class Main {
             //e.printStackTrace();
         }
     }
+
+    // Gera um ID pras coisas.
+    public static long genID() { return (long) (Math.random() * 1000000L); }
 
     // Atalho para promts
     static String ask(String prompt) {
