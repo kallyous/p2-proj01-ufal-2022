@@ -58,7 +58,9 @@ public class Main {
                 say("Criando novo usuário...");
                 String name = ask("Nome completo da pessoa");
                 String role = ask("Função");
-                user_base.add(new User(name, role));
+                User u = new User(name, role);
+                user_base.add(u);
+                say(name + " cadastrado com ID " + u.id());
                 continue;
             }
 
@@ -73,13 +75,15 @@ public class Main {
             // Detalhes de um usuário específico
             try {
                 long id = Long.parseLong(opt);
+                boolean match = false;
                 for (User u : user_base) {
                     if (u.id() == id) {
-                         userDetailView(u);
-                         break;
+                        match = true;
+                        userDetailView(u);
+                        break;
                     }
                 }
-                say("Ninguém com ID " + id + " encontrado.");
+                if (!match) say("Ninguém com ID " + id + " encontrado.");
             } catch (NumberFormatException nfe) {
                 say("Opção inválida.");
             }
@@ -95,10 +99,10 @@ public class Main {
         while(!opt.equals("voltar")) {
 
             say(prompt_user_detail_view);
-            say("Nome:\t" + user.name());
-            say("\tID\t" + user.id());
-            say("\tFunção:\t" + user.role());
-            say()
+            say("  Nome:\t" + user.name());
+            say("  ID\t" + user.id());
+            say("  Função:\t" + user.role());
+            say();
 
             opt = ask("O que deseja fazer?");
 
@@ -115,7 +119,9 @@ public class Main {
             }
 
             if (opt.equals("del")) {
-                say("...TODO...");
+                user_base.remove(user);
+                say(user.name() + " removido.");
+                opt = "voltar";
             }
 
         }
