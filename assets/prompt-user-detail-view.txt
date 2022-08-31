@@ -1,0 +1,12 @@
+
+--------------------------------------------------------------------------------
+DETALHES DE USUÁRIO
+--------------------------------------------------------------------------------
+Opções:
+
+1    -  alterar nome do usuário
+2    -  trocar cargo ou função
+del  -  excluir usuário permamentemente
+
+voltar  -  retorna à seção anterior
+

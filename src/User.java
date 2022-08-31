@@ -24,11 +24,19 @@ public class User
         return uname;
     }
 
-    public long id() {
-        return uid;
+    public void setName(String name) {
+        uname = name;
     }
 
     public String role() {
         return urole;
+    }
+
+    public void setRole(String role) {
+        urole = role;
+    }
+
+    public long id() {
+        return uid;
     }
 }

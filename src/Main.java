@@ -8,7 +8,8 @@ public class Main {
     static String opt = "";
     static String prompt_init = "";
 
-    static String prompt_userlistview = "";
+    static String prompt_user_list_view = "";
+    static String prompt_user_detail_view = "";
     static Vector<User> user_base;
 
     public static void main(String[] args)
@@ -49,7 +50,7 @@ public class Main {
         opt = "";
 
         while (!opt.equals("voltar")) {
-            System.out.print(prompt_userlistview);
+            System.out.print(prompt_user_list_view);
             opt = System.console().readLine();
 
             // Rotina de adição de novo usuário.
@@ -72,14 +73,13 @@ public class Main {
             // Detalhes de um usuário específico
             try {
                 long id = Long.parseLong(opt);
-                say("ID reconhecido: " + id);
                 for (User u : user_base) {
                     if (u.id() == id) {
                          userDetailView(u);
                          break;
                     }
                 }
-                say("Ninguém com ID " + id);
+                say("Ninguém com ID " + id + " encontrado.");
             } catch (NumberFormatException nfe) {
                 say("Opção inválida.");
             }
@@ -92,14 +92,34 @@ public class Main {
     static void userDetailView(User user) {
         opt = "";
 
-        say("\nDetalhes de usuário");
-        say("ID\t" + user.id());
-        say("Nome:\t" + user.name());
-        say("Função:\t" + user.role());
-
         while(!opt.equals("voltar")) {
-            opt = ask("\nO que deseja fazer?");
+
+            say(prompt_user_detail_view);
+            say("Nome:\t" + user.name());
+            say("\tID\t" + user.id());
+            say("\tFunção:\t" + user.role());
+            say()
+
+            opt = ask("O que deseja fazer?");
+
+            if (opt.equals("1")) {
+                String name = ask("Mudar nome para?");
+                user.setName(name);
+                continue;
+            }
+
+            if (opt.equals("2")) {
+                String role = ask("Mudar função para?");
+                user.setRole(role);
+                continue;
+            }
+
+            if (opt.equals("del")) {
+                say("...TODO...");
+            }
+
         }
+
         opt = "";
     }
 
@@ -143,11 +163,25 @@ public class Main {
             Scanner reader = new Scanner(file);
             while (reader.hasNextLine()) {
                 String data = reader.nextLine() + "\n";
-                prompt_userlistview += data;
+                prompt_user_list_view += data;
             }
             reader.close();
         } catch (FileNotFoundException e) {
             System.out.println("Arquivo de prompt da visão de lista de usuários não encontrado.");
+            //e.printStackTrace();
+        }
+
+        // Prompt UserDetailView
+        try {
+            File file = new File("assets/prompt-user-detail-view.txt");
+            Scanner reader = new Scanner(file);
+            while (reader.hasNextLine()) {
+                String data = reader.nextLine() + "\n";
+                prompt_user_detail_view += data;
+            }
+            reader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Arquivo de prompt da visão de detalhes de usuário não encontrado.");
             //e.printStackTrace();
         }
     }
