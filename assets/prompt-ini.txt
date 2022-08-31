@@ -1,0 +1,11 @@
+Projetator 2022
+--------------------------------------------------------------------------------
+
+Opções:
+
+atividades  -  criar ver e editar atividades
+projetos    -  criar, ver e editar projetos
+usuarios    -  criar, ver e editar usuários
+
+sair        -  encerrar aplicação
+

@@ -1,0 +1,7 @@
+Projetator 2022
+--------------------------------------------------------------------------------
+Opções:
+
+novo    -  criar novo usuário
+1 .. n  -  entre o ID de um usuário para vizualizar e editar seus dados
+
