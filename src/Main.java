@@ -12,6 +12,9 @@ public class Main {
     static String prompt_user_detail_view = "";
     static Vector<User> user_base;
 
+
+
+    // LAÇO CENTRAL
     public static void main(String[] args)
     {
         // Carrega informações iniciais.
@@ -45,7 +48,7 @@ public class Main {
     }
 
 
-    // Visão de usuários
+    // USER LIST VIEW
     static void userListView() {
         opt = "";
 
@@ -93,7 +96,7 @@ public class Main {
 
 
 
-    // Visão de detalhes e edição de usuário.
+    // USER DETAIL VIEW
     static void userDetailView(User user) {
         opt = "";
 
@@ -132,20 +135,22 @@ public class Main {
 
 
 
-    // Visão de projetos
+    // PROJECT LIST VIEW
     static void projectListView() {
         System.out.println("Project List View TODO");
     }
 
 
 
-    // Visão de atividades
+    // ACTIVITY LIST VIEW
     static void activityListView() {
         System.out.println("Activity List View TODO");
     }
 
 
-        static void setup() {
+
+    // SETUP - Carrega dados e configura coisas
+    static void setup() {
 
         // Inicia base de usuários
         user_base = new Vector<User>();
@@ -193,8 +198,14 @@ public class Main {
         }
     }
 
-    // Gera um ID pras coisas.
-    public static long genID() { return (long) (Math.random() * 1000000L); }
+
+
+    // ID GENERATOR
+    public static long genID() {
+        return (long) (Math.random() * 1000000L);
+    }
+
+
 
     // Atalho para promts
     static String ask(String prompt) {
@@ -203,18 +214,25 @@ public class Main {
         return answer;
     }
 
+
+
     // Atalho para escrever tralha na tela.
     static void say(String text) {
         System.out.println(text);
     }
+
+
 
     // Atalho para escrever tralha na tela.
     static void say() {
         System.out.println();
     }
 
+
+
     // Atalho para escrever tralha na tela sem newline ao final.
     static void say_(String text) {
         System.out.print(text);
     }
+
 }
