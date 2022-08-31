@@ -52,12 +52,12 @@ public class Main {
     static void userListView() {
         opt = "";
 
-        while (!opt.equals("voltar")) {
+        while (!opt.toLowerCase().equals("voltar")) {
             System.out.print(prompt_user_list_view);
             opt = System.console().readLine();
 
             // Rotina de adição de novo usuário.
-            if (opt.equals("novo")) {
+            if (opt.toLowerCase().equals("novo")) {
                 say("Criando novo usuário...");
                 long id = genID();
                 String name = ask("Nome completo da pessoa");
@@ -69,7 +69,7 @@ public class Main {
             }
 
             // Rotina de listagem dos usuários.
-            if (opt.equals("listar")) {
+            if (opt.toLowerCase().equals("listar")) {
                 say("\nID \t\t\tFunção \t\t\tNome");
                 say("--------------------------------------------------------------------------------");
                 for (User u : user_base) say(u.id() + "\t\t\t" + u.role() + "\t\t\t" + u.name());
@@ -100,7 +100,7 @@ public class Main {
     static void userDetailView(User user) {
         opt = "";
 
-        while(!opt.equals("voltar")) {
+        while(!opt.toLowerCase().equals("voltar")) {
 
             say(prompt_user_detail_view);
             say("  Nome:\t" + user.name());
@@ -110,19 +110,19 @@ public class Main {
 
             opt = ask("O que deseja fazer?");
 
-            if (opt.equals("1")) {
+            if (opt.toLowerCase().equals("1")) {
                 String name = ask("Mudar nome para?");
                 user.setName(name);
                 continue;
             }
 
-            if (opt.equals("2")) {
+            if (opt.toLowerCase().equals("2")) {
                 String role = ask("Mudar função para?");
                 user.setRole(role);
                 continue;
             }
 
-            if (opt.equals("del")) {
+            if (opt.toLowerCase().equals("del")) {
                 user_base.remove(user);
                 say(user.name() + " removido.");
                 opt = "voltar";
