@@ -51,12 +51,20 @@ public class Main {
             System.out.print(prompt_userlistview);
             opt = System.console().readLine();
 
+            // Rotina de adição de novo usuário.
             if (opt.equals("novo")) {
-                long id = (long) (Math.random() * 1000000L);
-                say("Criando novo usuário com ID " + id);
+                say("Criando novo usuário...");
                 String name = ask("Nome completo da pessoa");
                 String role = ask("Função");
+                user_base.add(new User(name, role));
+                continue;
+            }
 
+            // Rotina de listagem dos usuários.
+            if (opt.equals("listar")) {
+                say();
+                for (User u : user_base) say(u.id() + "  " + u.name() + "  " + u.role());
+                continue;
             }
         }
     }
@@ -120,6 +128,11 @@ public class Main {
     // Atalho para escrever tralha na tela.
     static void say(String text) {
         System.out.println(text);
+    }
+
+    // Atalho para escrever tralha na tela.
+    static void say() {
+        System.out.println();
     }
 
     // Atalho para escrever tralha na tela sem newline ao final.
