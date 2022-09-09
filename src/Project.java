@@ -10,10 +10,12 @@ public class Project {
     }
 
     public Project(long id, String name) {
+        pid = id;
         pname = name;
     }
 
     public Project(long id, String name, String descriptiom) {
+        pid = id;
         pname = name;
         pdescription = descriptiom;
     }

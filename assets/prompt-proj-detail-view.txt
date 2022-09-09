@@ -1,0 +1,12 @@
+
+--------------------------------------------------------------------------------
+DETALHES DE PROJETO
+--------------------------------------------------------------------------------
+Opções:
+
+1    -  alterar nome do projeto
+
+del  -  excluir projeto permamentemente
+
+voltar  -  retorna à seção anterior
+

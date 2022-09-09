@@ -8,9 +8,13 @@ public class Main {
     static String opt = "";
     static String prompt_init = "";
 
+    static Vector<User> user_base;
     static String prompt_user_list_view = "";
     static String prompt_user_detail_view = "";
-    static Vector<User> user_base;
+
+    static Vector<Project> proj_base;
+    static String prompt_proj_list_view = "";
+    static String prompt_proj_detail_view = "";
 
 
 
@@ -137,7 +141,79 @@ public class Main {
 
     // PROJECT LIST VIEW
     static void projectListView() {
-        System.out.println("Project List View TODO");
+        opt = "";
+
+        while (!opt.toLowerCase().equals("voltar")) {
+            System.out.print(prompt_proj_list_view);
+            opt = System.console().readLine();
+
+            // Rotina de adição de novo projeto.
+            if (opt.toLowerCase().equals("novo")) {
+                say("Criando novo projeto...");
+                long id = genID();
+                String name = ask("Nome do projeto");
+                Project p = new Project(id, name);
+                proj_base.add(p);
+                say(name + " cadastrado com ID " + id);
+                continue;
+            }
+
+            // Rotina de listagem dos usuários.
+            if (opt.toLowerCase().equals("listar")) {
+                say("\nID \t\t\tNome");
+                say("--------------------------------------------------------------------------------");
+                for (Project p : proj_base) say(p.id() + "\t\t\t" + p.name());
+                continue;
+            }
+
+            // Detalhes de um projeto específico
+            try {
+                long id = Long.parseLong(opt);
+                boolean match = false;
+                for (Project p : proj_base) {
+                    if (p.id() == id) {
+                        match = true;
+                        projectDetailView(p);
+                        break;
+                    }
+                }
+                if (!match) say("Nenhum projeto com ID " + id + " encontrado.");
+            } catch (NumberFormatException nfe) {
+                say("Opção inválida.");
+            }
+        }
+    }
+
+
+
+    // PROJECT DETAIL VIEW
+    static void projectDetailView(Project proj) {
+        opt = "";
+
+        while(!opt.toLowerCase().equals("voltar")) {
+
+            say(prompt_proj_detail_view);
+            say("  Nome:\t" + proj.name());
+            say("  ID\t" + proj.id());
+            say();
+
+            opt = ask("O que deseja fazer?");
+
+            if (opt.toLowerCase().equals("1")) {
+                String name = ask("Mudar nome para?");
+                proj.setName(name);
+                continue;
+            }
+
+            if (opt.toLowerCase().equals("del")) {
+                proj_base.remove(proj);
+                say(proj.name() + " removido.");
+                opt = "voltar";
+            }
+
+        }
+
+        opt = "";
     }
 
 
@@ -154,6 +230,9 @@ public class Main {
 
         // Inicia base de usuários
         user_base = new Vector<User>();
+
+        // Inicia base de projetos
+        proj_base = new Vector<Project>();
 
         // Prompt inicial
         try {
@@ -194,6 +273,34 @@ public class Main {
             reader.close();
         } catch (FileNotFoundException e) {
             System.out.println("Arquivo de prompt da visão de detalhes de usuário não encontrado.");
+            //e.printStackTrace();
+        }
+
+        // Prompt ProjectListView
+        try {
+            File file = new File("assets/prompt-proj-list-view.txt");
+            Scanner reader = new Scanner(file);
+            while (reader.hasNextLine()) {
+                String data = reader.nextLine() + "\n";
+                prompt_proj_list_view += data;
+            }
+            reader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Arquivo de prompt da visão de lista de projeto não encontrado.");
+            //e.printStackTrace();
+        }
+
+        // Prompt ProjectDetailView
+        try {
+            File file = new File("assets/prompt-proj-detail-view.txt");
+            Scanner reader = new Scanner(file);
+            while (reader.hasNextLine()) {
+                String data = reader.nextLine() + "\n";
+                prompt_proj_detail_view += data;
+            }
+            reader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Arquivo de prompt da visão de detalhes de projeto não encontrado.");
             //e.printStackTrace();
         }
     }
