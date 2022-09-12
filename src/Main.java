@@ -11,14 +11,17 @@ public class Main {
     static String prompt_init = "";
 
     static Vector<User> user_base;
+    static UserViews userViews;
     static String prompt_user_list_view = "";
     static String prompt_user_detail_view = "";
 
     static Vector<Project> proj_base;
+    static ProjectViews projectViews;
     static String prompt_proj_list_view = "";
     static String prompt_proj_detail_view = "";
 
     static Vector<Activity> activ_base;
+    static ActivityViews activityViews;
     static String prompt_act_list_view = "";
     static String prompt_act_detail_view = "";
 
@@ -38,268 +41,23 @@ public class Main {
 
             // Chama visão de CRUD de usuários.
             if (opt.toLowerCase().equals("usuarios")) {
-                userListView();
+                userViews.list();
                 continue;
             }
 
             // Chama visão de CRUD de projetos.
             if (opt.toLowerCase().equals("projetos")) {
-                projectListView();
+                projectViews.list();
                 continue;
             }
 
             // Chama visão de CRUD de usuários.
             if (opt.toLowerCase().equals("atividades")) {
-                activityListView();
+                activityViews.list();
                 continue;
             }
 
         }
-    }
-
-
-
-    // USER LIST VIEW
-    static void userListView() {
-        opt = "";
-
-        while (!opt.toLowerCase().equals("voltar")) {
-            System.out.print(prompt_user_list_view);
-            opt = System.console().readLine();
-
-            // Rotina de adição de novo usuário.
-            if (opt.toLowerCase().equals("novo")) {
-                say("Criando novo usuário...");
-                long id = genID();
-                String name = ask("Nome completo da pessoa");
-                String role = ask("Função");
-                User u = new User(id, name, role);
-                user_base.add(u);
-                say(name + " cadastrado com ID " + id);
-                continue;
-            }
-
-            // Rotina de listagem dos usuários.
-            if (opt.toLowerCase().equals("listar")) {
-                say("\nID \t\t\tFunção \t\t\tNome");
-                say("--------------------------------------------------------------------------------");
-                for (User u : user_base) say(u.id() + "\t\t\t" + u.role() + "\t\t\t" + u.name());
-                continue;
-            }
-
-            // Detalhes de um usuário específico
-            try {
-                long id = Long.parseLong(opt);
-                boolean match = false;
-                for (User u : user_base) {
-                    if (u.id() == id) {
-                        match = true;
-                        userDetailView(u);
-                        break;
-                    }
-                }
-                if (!match) say("Ninguém com ID " + id + " encontrado.");
-            } catch (NumberFormatException nfe) {
-                say("Opção inválida.");
-            }
-        }
-    }
-
-
-
-    // USER DETAIL VIEW
-    static void userDetailView(User user) {
-        opt = "";
-
-        while(!opt.toLowerCase().equals("voltar")) {
-
-            say(prompt_user_detail_view);
-            say("  Nome:\t" + user.name());
-            say("  ID\t" + user.id());
-            say("  Função:\t" + user.role());
-            say();
-
-            opt = ask("O que deseja fazer?");
-
-            if (opt.toLowerCase().equals("1")) {
-                String name = ask("Mudar nome para?");
-                user.setName(name);
-                continue;
-            }
-
-            if (opt.toLowerCase().equals("2")) {
-                String role = ask("Mudar função para?");
-                user.setRole(role);
-                continue;
-            }
-
-            if (opt.toLowerCase().equals("del")) {
-                user_base.remove(user);
-                say(user.name() + " removido.");
-                opt = "voltar";
-            }
-
-        }
-
-        opt = "";
-    }
-
-
-
-    // PROJECT LIST VIEW
-    static void projectListView() {
-        opt = "";
-
-        while (!opt.toLowerCase().equals("voltar")) {
-            System.out.print(prompt_proj_list_view);
-            opt = System.console().readLine();
-
-            // Rotina de adição de novo projeto.
-            if (opt.toLowerCase().equals("novo")) {
-                say("Criando novo projeto...");
-                long id = genID();
-                String name = ask("Nome do projeto");
-                Project p = new Project(id, name);
-                proj_base.add(p);
-                say(name + " cadastrado com ID " + id);
-                continue;
-            }
-
-            // Rotina de listagem dos usuários.
-            if (opt.toLowerCase().equals("listar")) {
-                say("\nID \t\t\tNome");
-                say("--------------------------------------------------------------------------------");
-                for (Project p : proj_base) say(p.id() + "\t\t\t" + p.name());
-                continue;
-            }
-
-            // Detalhes de um projeto específico
-            try {
-                long id = Long.parseLong(opt);
-                boolean match = false;
-                for (Project p : proj_base) {
-                    if (p.id() == id) {
-                        match = true;
-                        projectDetailView(p);
-                        break;
-                    }
-                }
-                if (!match) say("Nenhum projeto com ID " + id + " encontrado.");
-            } catch (NumberFormatException nfe) {
-                say("Opção inválida.");
-            }
-        }
-    }
-
-
-
-    // PROJECT DETAIL VIEW
-    static void projectDetailView(Project proj) {
-        opt = "";
-
-        while(!opt.toLowerCase().equals("voltar")) {
-
-            say(prompt_proj_detail_view);
-            say("  Nome:\t" + proj.name());
-            say("  ID\t" + proj.id());
-            say();
-
-            opt = ask("O que deseja fazer?");
-
-            if (opt.toLowerCase().equals("1")) {
-                String name = ask("Mudar nome para?");
-                proj.setName(name);
-                continue;
-            }
-
-            if (opt.toLowerCase().equals("del")) {
-                proj_base.remove(proj);
-                say(proj.name() + " removido.");
-                opt = "voltar";
-            }
-
-        }
-
-        opt = "";
-    }
-
-
-
-    // ACTIVITY LIST VIEW
-    static void activityListView()  {
-        opt = "";
-
-        while (!opt.toLowerCase().equals("voltar")) {
-            System.out.print(prompt_act_list_view);
-            opt = System.console().readLine();
-
-            // Rotina de adição de nova atividade.
-            if (opt.toLowerCase().equals("nova")) {
-                say("Criando nova atividade...");
-                long id = genID();
-                String name = ask("Nome da atividade");
-                Activity a = new Activity(id, name);
-                activ_base.add(a);
-                say(name + " cadastrada com ID " + id);
-                continue;
-            }
-
-            // Rotina de listagem das atividades.
-            if (opt.toLowerCase().equals("listar")) {
-                say("\nID \t\t\tNome");
-                say("--------------------------------------------------------------------------------");
-                for (Activity a : activ_base) say(a.id() + "\t\t\t" + a.name());
-                continue;
-            }
-
-            // Detalhes de uma atividade específica
-            try {
-                long id = Long.parseLong(opt);
-                boolean match = false;
-                for (Activity a : activ_base) {
-                    if (a.id() == id) {
-                        match = true;
-                        activityDetailView(a);
-                        break;
-                    }
-                }
-                if (!match) say("Nenhuma atividade com ID " + id + " encontrada.");
-            } catch (NumberFormatException nfe) {
-                say("Opção inválida.");
-            }
-        }
-    }
-
-
-
-    // USER DETAIL VIEW
-    static void activityDetailView(Activity activ) {
-        opt = "";
-
-        while(!opt.toLowerCase().equals("voltar")) {
-
-            say(prompt_act_detail_view);
-            say("  Nome:\t" + activ.name());
-            say("  ID\t" + activ.id());
-            say();
-
-            opt = ask("O que deseja fazer?");
-
-            if (opt.toLowerCase().equals("1")) {
-                String name = ask("Mudar nome para?");
-                activ.setName(name);
-                continue;
-            }
-
-            if (opt.toLowerCase().equals("del")) {
-                activ_base.remove(activ);
-                say(activ.name() + " removida.");
-                opt = "voltar";
-            }
-
-        }
-
-        opt = "";
     }
 
 
@@ -316,6 +74,7 @@ public class Main {
         // Inicia base de atividades
         activ_base = new Vector<Activity>();
 
+
         // Prompt inicial
         try {
             File file = new File("assets/prompt-ini.txt");
@@ -329,6 +88,7 @@ public class Main {
             System.out.println("Arquivo de prompt inicial não encontrado.");
             //e.printStackTrace();
         }
+
 
         // Prompt UserListView
         try {
@@ -358,6 +118,10 @@ public class Main {
             //e.printStackTrace();
         }
 
+        // Inicializa visões de usuário
+        userViews = new UserViews(user_base, activ_base, proj_base, prompt_user_list_view, prompt_user_detail_view);
+
+
         // Prompt ProjectListView
         try {
             File file = new File("assets/prompt-proj-list-view.txt");
@@ -386,6 +150,10 @@ public class Main {
             //e.printStackTrace();
         }
 
+        // Inicializa visões de usuário
+        projectViews = new ProjectViews(user_base, activ_base, proj_base, prompt_proj_list_view, prompt_proj_detail_view);
+
+
         // Prompt ActivityListView
         try {
             File file = new File("assets/prompt-act-list-view.txt");
@@ -413,43 +181,11 @@ public class Main {
             System.out.println("Arquivo de prompt da visão de detalhes de atividade não encontrado.");
             //e.printStackTrace();
         }
+
+        // Inicializa visões de usuário
+        activityViews = new ActivityViews(user_base, activ_base, proj_base, prompt_act_list_view, prompt_act_detail_view);
     }
 
 
-
-    // ID GENERATOR
-    public static long genID() {
-        return (long) (Math.random() * 1000000L);
-    }
-
-
-
-    // Atalho para promts
-    static String ask(String prompt) {
-        System.out.println(prompt);
-        String answer = System.console().readLine();
-        return answer;
-    }
-
-
-
-    // Atalho para escrever tralha na tela.
-    static void say(String text) {
-        System.out.println(text);
-    }
-
-
-
-    // Atalho para escrever tralha na tela.
-    static void say() {
-        System.out.println();
-    }
-
-
-
-    // Atalho para escrever tralha na tela sem newline ao final.
-    static void say_(String text) {
-        System.out.print(text);
-    }
 
 }
