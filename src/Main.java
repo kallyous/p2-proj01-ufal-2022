@@ -3,6 +3,8 @@ import java.io.FileNotFoundException;  // Import this class to handle errors
 import java.util.Scanner;              // Import the Scanner class to read text files
 import java.util.Vector;               // Lista de tamanho variável
 
+
+
 public class Main {
 
     static String opt = "";
@@ -15,6 +17,10 @@ public class Main {
     static Vector<Project> proj_base;
     static String prompt_proj_list_view = "";
     static String prompt_proj_detail_view = "";
+
+    static Vector<Activity> activ_base;
+    static String prompt_act_list_view = "";
+    static String prompt_act_detail_view = "";
 
 
 
@@ -50,6 +56,7 @@ public class Main {
 
         }
     }
+
 
 
     // USER LIST VIEW
@@ -219,8 +226,80 @@ public class Main {
 
 
     // ACTIVITY LIST VIEW
-    static void activityListView() {
-        System.out.println("Activity List View TODO");
+    static void activityListView()  {
+        opt = "";
+
+        while (!opt.toLowerCase().equals("voltar")) {
+            System.out.print(prompt_act_list_view);
+            opt = System.console().readLine();
+
+            // Rotina de adição de nova atividade.
+            if (opt.toLowerCase().equals("nova")) {
+                say("Criando nova atividade...");
+                long id = genID();
+                String name = ask("Nome da atividade");
+                Activity a = new Activity(id, name);
+                activ_base.add(a);
+                say(name + " cadastrada com ID " + id);
+                continue;
+            }
+
+            // Rotina de listagem das atividades.
+            if (opt.toLowerCase().equals("listar")) {
+                say("\nID \t\t\tNome");
+                say("--------------------------------------------------------------------------------");
+                for (Activity a : activ_base) say(a.id() + "\t\t\t" + a.name());
+                continue;
+            }
+
+            // Detalhes de uma atividade específica
+            try {
+                long id = Long.parseLong(opt);
+                boolean match = false;
+                for (Activity a : activ_base) {
+                    if (a.id() == id) {
+                        match = true;
+                        activityDetailView(a);
+                        break;
+                    }
+                }
+                if (!match) say("Nenhuma atividade com ID " + id + " encontrada.");
+            } catch (NumberFormatException nfe) {
+                say("Opção inválida.");
+            }
+        }
+    }
+
+
+
+    // USER DETAIL VIEW
+    static void activityDetailView(Activity activ) {
+        opt = "";
+
+        while(!opt.toLowerCase().equals("voltar")) {
+
+            say(prompt_act_detail_view);
+            say("  Nome:\t" + activ.name());
+            say("  ID\t" + activ.id());
+            say();
+
+            opt = ask("O que deseja fazer?");
+
+            if (opt.toLowerCase().equals("1")) {
+                String name = ask("Mudar nome para?");
+                activ.setName(name);
+                continue;
+            }
+
+            if (opt.toLowerCase().equals("del")) {
+                activ_base.remove(activ);
+                say(activ.name() + " removida.");
+                opt = "voltar";
+            }
+
+        }
+
+        opt = "";
     }
 
 
@@ -233,6 +312,9 @@ public class Main {
 
         // Inicia base de projetos
         proj_base = new Vector<Project>();
+
+        // Inicia base de atividades
+        activ_base = new Vector<Activity>();
 
         // Prompt inicial
         try {
@@ -301,6 +383,34 @@ public class Main {
             reader.close();
         } catch (FileNotFoundException e) {
             System.out.println("Arquivo de prompt da visão de detalhes de projeto não encontrado.");
+            //e.printStackTrace();
+        }
+
+        // Prompt ActivityListView
+        try {
+            File file = new File("assets/prompt-act-list-view.txt");
+            Scanner reader = new Scanner(file);
+            while (reader.hasNextLine()) {
+                String data = reader.nextLine() + "\n";
+                prompt_act_list_view += data;
+            }
+            reader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Arquivo de prompt da visão de lista de atividades não encontrado.");
+            //e.printStackTrace();
+        }
+
+        // Prompt ActivityDetailView
+        try {
+            File file = new File("assets/prompt-act-detail-view.txt");
+            Scanner reader = new Scanner(file);
+            while (reader.hasNextLine()) {
+                String data = reader.nextLine() + "\n";
+                prompt_act_detail_view += data;
+            }
+            reader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Arquivo de prompt da visão de detalhes de atividade não encontrado.");
             //e.printStackTrace();
         }
     }

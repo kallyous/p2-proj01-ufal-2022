@@ -1,13 +1,13 @@
 
 
 ================================================================================
-DETALHES DE USUÁRIO
+DETALHES DE ATIVIDADE
 --------------------------------------------------------------------------------
 Opções:
 
-1    -  alterar nome do usuário
-2    -  trocar cargo ou função
-del  -  excluir usuário permamentemente
+1    -  alterar nome da atividade
+
+del  -  excluir atividade permamentemente
 
 voltar  -  retorna à seção anterior
 
