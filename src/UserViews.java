@@ -12,7 +12,7 @@ public class UserViews extends View {
 
 
 
-    // USER LIST VIEW
+    // LIST / MAIN  VIEW
     public void list() {
 
         String opt = "";
@@ -63,7 +63,7 @@ public class UserViews extends View {
 
 
 
-    // USER DETAIL VIEW
+    // DETAIL / ACTIONS  VIEW
     public void detail(User user) {
 
         String opt = "";
@@ -74,33 +74,32 @@ public class UserViews extends View {
 
             // INFO BÁSICAS
             say(prompt_detail);
-            say("  Nome:\t" + user.name());
-            say("  ID\t" + user.id());
-            say("  Função:\t" + user.role());
-            say();
+            say("  ID:     " + user.id());
+            say("  Nome:   " + user.name());
+            say("  Função: " + user.role());
 
 
             // INFO PROJETOS
             Vector<Long> projects = user.getProjects();
             if (projects.size() > 0) {
-                say_("\tProjetos:");
+                say_("  Projetos:");
                 for (Long pid : projects) say(" " + pid);
             }
             else
-                say("\tNão cadastrado em projetos.");
+                say("  Não cadastrado em projetos.");
 
 
             // INFO ATIVIDADES
             Vector<Long> activities = user.getActivities();
             if (activities.size() > 0) {
-                say("\tAtividades:");
+                say("  Atividades:");
                 for (Long aid : activities) {
                     Activity a = getActivityByID(aid);
-                    say("\t\t" + aid + " - " + a.name());
+                    say("    " + aid + " - " + a.name());
                 }
             }
             else
-                say("\tNenhuma atividade atribuída.");
+                say("  Nenhuma atividade atribuída.");
 
 
             opt = ask("\nO que deseja fazer?");
@@ -113,6 +112,7 @@ public class UserViews extends View {
                 continue;
             }
 
+
             // FUNÇÃO, TROCAR
             if (opt.toLowerCase().equals("2")) {
                 String role = ask("Mudar função para?");
@@ -123,14 +123,17 @@ public class UserViews extends View {
 
             // ATIVIDADE, ATRIBUIR
             if (opt.toLowerCase().equals("3")) {
-                String aid_str = ask("Qual o ID da atividade?");
+                say("\nAtividades disponíveis:");
+                for (Activity a : activ_base)
+                    say("  ID " + a.id() + " - " + a.name());
+                String aid_str = ask("ID da atividade a atribuir?");
                 long aid = Long.parseLong(aid_str);
                 Activity activ = getActivityByID(aid);
                 if (activ != null) {
                     if (user.addActivity(aid))
-                        say("Atividade atribuída.");
+                        say("\nATENÇÃO: Atividade '" + activ.name() + "' foi atribuída a " + user.name());
                     else
-                        say("Falha ao atribuir atividade.");
+                        say(activ.name() + " já foi atribuído a " + user.name());
                 }
                 else
                     say("Atividade não existe.");

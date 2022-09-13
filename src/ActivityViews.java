@@ -12,7 +12,7 @@ public class ActivityViews extends View {
 
 
 
-    // ACTIVITY LIST VIEW
+    // LIST / MAIN  VIEW
     public void list()  {
 
         String opt = "";
@@ -63,7 +63,7 @@ public class ActivityViews extends View {
 
 
 
-    // USER DETAIL VIEW
+    // DETAIL / ACTIONS  VIEW
     public void detail(Activity activ) {
 
         String opt = "";

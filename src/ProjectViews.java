@@ -12,7 +12,7 @@ public class ProjectViews extends View {
 
 
 
-    // PROJECT LIST VIEW
+    // LIST / MAIN  VIEW
     public void list() {
 
         String opt = "";
@@ -63,7 +63,7 @@ public class ProjectViews extends View {
 
 
 
-    // PROJECT DETAIL VIEW
+    // DETAIL / ACTIONS  VIEW
     public void detail(Project proj) {
 
         String opt = "";
@@ -72,10 +72,9 @@ public class ProjectViews extends View {
 
             say(prompt_detail);
             say("  Nome:\t" + proj.name());
-            say("  ID\t" + proj.id());
-            say();
+            say("  ID:\t" + proj.id());
 
-            opt = ask("O que deseja fazer?");
+            opt = ask("\nO que deseja fazer?");
 
             if (opt.toLowerCase().equals("1")) {
                 String name = ask("Mudar nome para?");
