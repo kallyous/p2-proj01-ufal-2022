@@ -7,8 +7,8 @@ Opções:
 
 1    -  alterar nome do usuário
 2    -  trocar cargo ou função
-3    -  atribuir atividade ao usuário
-4    -  cadastrar usuário em projeto
+3    -  atribuir ou remover atividade ao usuário
+4    -  cadastrar ou descadastrar usuário em projeto
 del  -  excluir usuário permamentemente
 
 voltar  -  retorna à seção anterior

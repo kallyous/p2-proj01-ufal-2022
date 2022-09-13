@@ -126,20 +126,34 @@ public class UserViews extends View {
 
             // ATIVIDADE, ATRIBUIR
             if (opt.toLowerCase().equals("3")) {
+
                 say("\nAtividades disponíveis:");
                 for (Activity a : activ_base)
                     say("  ID " + a.id() + " - " + a.name());
-                String aid_str = ask("ID da atividade a atribuir?");
+
+                String aid_str = ask("\nID da atividade a atribuir/remover?");
                 long aid = Long.parseLong(aid_str);
                 Activity activ = getActivityByID(aid);
+
+                // Verifica se atividade com este ID existe.
                 if (activ != null) {
-                    if (user.addActivity(aid))
-                        say("\nATENÇÃO: Atividade '" + activ.name() + "' foi atribuída a " + user.name());
-                    else
-                        say(activ.name() + " já foi atribuído a " + user.name());
-                }
-                else
-                    say("Atividade não existe.");
+
+                    // Desassocia usuário e atividade se já estão associados.
+                    if (user.getActivities().contains(aid)) {
+                        user.removeActivity(aid);
+                        activ.removeUser(user.id());
+                        say("\nATENÇÃO: Atividade '" + activ.name() + "' não está mais atribuída a " + user.name() + ".");
+                    }
+
+                    // Associa usuário e atividade se não estavam associados.
+                    else {
+                        user.addActivity(aid);
+                        activ.addUser(user.id());
+                        say("\nATENÇÃO: Atividade '" + activ.name() + "' agora está atribuída a " + user.name() + ".");
+                    }
+
+                } else say("Atividade não existe.");
+
                 continue;
             }
 
@@ -149,7 +163,7 @@ public class UserViews extends View {
                 say("\nProjetos disponíveis:");
                 for (Project p : proj_base)
                     say("  ID " + p.id() + " - " + p.name());
-                String pid_str = ask("ID do projeto no qual cadastrar?");
+                String pid_str = ask("\nID do projeto no qual cadastrar?");
                 long pid = Long.parseLong(pid_str);
                 Project proj = getProjectByID(pid);
                 if (proj != null) {
