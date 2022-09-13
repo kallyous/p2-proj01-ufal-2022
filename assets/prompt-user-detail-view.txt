@@ -12,4 +12,3 @@ Opções:
 del  -  excluir usuário permamentemente
 
 voltar  -  retorna à seção anterior
-

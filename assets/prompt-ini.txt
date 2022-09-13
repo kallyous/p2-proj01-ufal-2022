@@ -11,4 +11,3 @@ projetos    -  criar, ver e editar projetos
 usuarios    -  criar, ver e editar usuários
 
 sair        -  encerrar aplicação
-

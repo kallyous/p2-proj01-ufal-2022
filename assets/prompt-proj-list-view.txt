@@ -10,4 +10,3 @@ listar  -  exibe uma lista com todos os projetos cadastrados e seus IDs
 1 .. n  -  entre o ID de um projeto para vizualizá-lo e editá-lo
 
 voltar  -  retorna ao menu principal
-

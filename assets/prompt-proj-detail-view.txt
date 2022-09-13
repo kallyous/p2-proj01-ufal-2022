@@ -10,4 +10,3 @@ Opções:
 del  -  excluir projeto permamentemente
 
 voltar  -  retorna à seção anterior
-

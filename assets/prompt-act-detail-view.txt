@@ -10,4 +10,3 @@ Opções:
 del  -  excluir atividade permamentemente
 
 voltar  -  retorna à seção anterior
-

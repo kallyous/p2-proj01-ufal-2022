@@ -10,4 +10,3 @@ listar  -  exibe uma lista com todas as atividades cadastradas e seus IDs
 1 .. n  -  entre o ID de uma atividade para vizualizar e editar seus dados
 
 voltar  -  retorna ao menu principal
-
