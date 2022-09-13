@@ -25,7 +25,8 @@ public class ActivityViews extends View {
                 say("Criando nova atividade...");
                 long id = genID();
                 String name = ask("Nome da atividade");
-                Activity a = new Activity(id, name);
+                Activity a = new Activity(id);
+                a.setName(name);
                 activ_base.add(a);
                 say(name + " cadastrada com ID " + id);
                 continue;
@@ -79,6 +80,7 @@ public class ActivityViews extends View {
             }
 
             if (opt.toLowerCase().equals("del")) {
+
                 activ_base.remove(activ);
                 say(activ.name() + " removida.");
                 opt = "voltar";

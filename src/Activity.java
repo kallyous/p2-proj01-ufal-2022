@@ -1,31 +1,21 @@
+import java.util.Vector;
 
-public class Activity {
 
-    long aid;
-    String aname;
-    String adescription;
+
+public class Activity extends Entity {
+
+    String description;
+
 
     public Activity(long id) {
-        aid = id;
+        super(id);
+        users = new Vector<Long>();
+        projects = new Vector<Long>();
     }
 
-    public Activity(long id, String name) {
-        aid = id;
-        aname = name;
-    }
 
-    public Activity(long id, String name, String descriptiom) {
-        aid = id;
-        aname = name;
-        adescription = descriptiom;
-    }
-
-    public long id() { return aid; }
-
-    public String name() { return aname; }
-    public void setName(String name) { aname = name; }
-
-    public String description() { return adescription; }
-    public void setDescription(String description) { adescription = description; }
+    // DESCRIÇÃO
+    public String description() { return description; }
+    public void setDescription(String description) { this.description = description; }
 
 }
