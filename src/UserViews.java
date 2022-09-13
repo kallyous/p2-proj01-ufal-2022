@@ -14,6 +14,7 @@ public class UserViews extends View {
 
     // USER LIST VIEW
     public void list() {
+
         String opt = "";
 
         while (!opt.toLowerCase().equals("voltar")) {
@@ -64,6 +65,7 @@ public class UserViews extends View {
 
     // USER DETAIL VIEW
     public void detail(User user) {
+
         String opt = "";
 
 
@@ -153,6 +155,7 @@ public class UserViews extends View {
             }
 
         }
+
     }
 
 

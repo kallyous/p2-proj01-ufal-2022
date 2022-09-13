@@ -14,6 +14,7 @@ public class ProjectViews extends View {
 
     // PROJECT LIST VIEW
     public void list() {
+
         String opt = "";
 
         while (!opt.toLowerCase().equals("voltar")) {
@@ -55,13 +56,16 @@ public class ProjectViews extends View {
             } catch (NumberFormatException nfe) {
                 say("Opção inválida.");
             }
+
         }
+
     }
 
 
 
     // PROJECT DETAIL VIEW
     public void detail(Project proj) {
+
         String opt = "";
 
         while(!opt.toLowerCase().equals("voltar")) {
@@ -86,6 +90,7 @@ public class ProjectViews extends View {
             }
 
         }
+
     }
 
 

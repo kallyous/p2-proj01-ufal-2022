@@ -7,6 +7,7 @@ public class User extends Entity {
     String role;
 
 
+
     public User(long id)
     {
         super(id);
@@ -15,9 +16,11 @@ public class User extends Entity {
     }
 
 
+
     // ROLE
     public String role() { return role; }
     public void setRole(String role) { this.role = role; }
+
 
 
     // OVERRIDES QUE IMPEDEM ASSOCIAÇÕES ENTRE USUÁRIOS

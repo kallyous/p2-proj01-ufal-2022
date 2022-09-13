@@ -14,6 +14,7 @@ public class ActivityViews extends View {
 
     // ACTIVITY LIST VIEW
     public void list()  {
+
         String opt = "";
 
         while (!opt.toLowerCase().equals("voltar")) {
@@ -55,13 +56,16 @@ public class ActivityViews extends View {
             } catch (NumberFormatException nfe) {
                 say("Opção inválida.");
             }
+
         }
+
     }
 
 
 
     // USER DETAIL VIEW
     public void detail(Activity activ) {
+
         String opt = "";
 
         while(!opt.toLowerCase().equals("voltar")) {
@@ -87,8 +91,8 @@ public class ActivityViews extends View {
             }
 
         }
-    }
 
+    }
 
 
 }
