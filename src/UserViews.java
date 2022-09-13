@@ -79,6 +79,7 @@ public class UserViews extends View {
             say("  Função: " + user.role());
 
 
+
             // INFO PROJETOS
             Vector<Long> projects = user.getProjects();
             if (projects.size() > 0) {
@@ -92,6 +93,7 @@ public class UserViews extends View {
                 say("  Não cadastrado em projetos.");
 
 
+
             // INFO ATIVIDADES
             Vector<Long> activities = user.getActivities();
             if (activities.size() > 0) {
@@ -101,11 +103,13 @@ public class UserViews extends View {
                     say("    " + aid + " - " + a.name());
                 }
             }
-            else
-                say("  Nenhuma atividade atribuída.");
+            else say("  Nenhuma atividade atribuída.");
 
 
+
+            // ENTRADA
             opt = ask("\nO que deseja fazer?");
+
 
 
             // NOME DE USUÁRIO, TROCAR
@@ -116,12 +120,14 @@ public class UserViews extends View {
             }
 
 
+
             // FUNÇÃO, TROCAR
             if (opt.toLowerCase().equals("2")) {
                 String role = ask("Mudar função para?");
                 user.setRole(role);
                 continue;
             }
+
 
 
             // ATIVIDADE, ATRIBUIR
@@ -133,29 +139,13 @@ public class UserViews extends View {
 
                 String aid_str = ask("\nID da atividade a atribuir/remover?");
                 long aid = Long.parseLong(aid_str);
-                Activity activ = getActivityByID(aid);
 
-                // Verifica se atividade com este ID existe.
-                if (activ != null) {
-
-                    // Desassocia usuário e atividade se já estão associados.
-                    if (user.getActivities().contains(aid)) {
-                        user.removeActivity(aid);
-                        activ.removeUser(user.id());
-                        say("\nATENÇÃO: Atividade '" + activ.name() + "' não está mais atribuída a " + user.name() + ".");
-                    }
-
-                    // Associa usuário e atividade se não estavam associados.
-                    else {
-                        user.addActivity(aid);
-                        activ.addUser(user.id());
-                        say("\nATENÇÃO: Atividade '" + activ.name() + "' agora está atribuída a " + user.name() + ".");
-                    }
-
-                } else say("Atividade não existe.");
+                // Vincula ou desvincula usuário e atividade.
+                bindingUserActivity(user.id(), aid);
 
                 continue;
             }
+
 
 
             // PROJETO, CADASTRAR EM
@@ -178,6 +168,7 @@ public class UserViews extends View {
             }
 
 
+
             // EXCLUIR / DELETAR
             if (opt.toLowerCase().equals("del")) {
                 user_base.remove(user);
@@ -188,7 +179,6 @@ public class UserViews extends View {
         }
 
     }
-
 
 
 }
