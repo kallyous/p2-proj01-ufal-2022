@@ -82,8 +82,11 @@ public class UserViews extends View {
             // INFO PROJETOS
             Vector<Long> projects = user.getProjects();
             if (projects.size() > 0) {
-                say_("  Projetos:");
-                for (Long pid : projects) say(" " + pid);
+                say("  Projetos:");
+                for (Long pid : projects) {
+                    Project p = getProjectByID(pid);
+                    say("    " + pid + " - " + p.name());
+                }
             }
             else
                 say("  Não cadastrado em projetos.");
