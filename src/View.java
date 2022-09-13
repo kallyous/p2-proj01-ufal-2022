@@ -4,21 +4,45 @@ import java.util.Vector;               // Lista de tamanho variável
 
 public class View {
 
-    static Vector<User> user_base;
-    static Vector<Activity> activ_base;
-    static Vector<Project> proj_base;
+    public static Vector<User> user_base;
+    public static Vector<Activity> activ_base;
+    public static Vector<Project> proj_base;
 
     String prompt_list;
     String prompt_detail;
 
 
 
-    public View(Vector<User> ub,  Vector<Activity> ab, Vector<Project> pb, String pl, String pd) {
-        user_base = ub;
-        activ_base = ab;
-        proj_base = pb;
+    public View(String pl, String pd) {
         prompt_list = pl;
         prompt_detail = pd;
+    }
+
+
+
+    // Acha usuário pelo ID
+    static User getUserByID(long id) {
+        for (User u : user_base)
+            if (u.id() == id) return u;
+            return null;
+    }
+
+
+
+    // Acha projeto pelo ID
+    static Project getProjectByID(long id) {
+        for (Project p : proj_base)
+            if (p.id() == id) return p;
+            return null;
+    }
+
+
+
+    // Acha atividade pelo ID
+    static Activity getActivityByID(long id) {
+        for (Activity a : activ_base)
+            if (a.id() == id) return a;
+            return null;
     }
 
 

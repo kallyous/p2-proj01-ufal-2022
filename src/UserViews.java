@@ -6,8 +6,8 @@ public class UserViews extends View {
 
 
 
-    public UserViews(Vector<User> ub,  Vector<Activity> ab, Vector<Project> pb, String pl, String pd) {
-        super(ub, ab, pb, pl, pd);
+    public UserViews(String pl, String pd) {
+        super(pl, pd);
     }
 
 
@@ -26,7 +26,9 @@ public class UserViews extends View {
                 long id = genID();
                 String name = ask("Nome completo da pessoa");
                 String role = ask("Função");
-                User u = new User(id, name, role);
+                User u = new User(id);
+                u.setName(name);
+                u.setRole(role);
                 user_base.add(u);
                 say(name + " cadastrado com ID " + id);
                 continue;
@@ -64,28 +66,86 @@ public class UserViews extends View {
     public void detail(User user) {
         String opt = "";
 
+
         while(!opt.toLowerCase().equals("voltar")) {
 
+
+            // INFO BÁSICAS
             say(prompt_detail);
             say("  Nome:\t" + user.name());
             say("  ID\t" + user.id());
             say("  Função:\t" + user.role());
             say();
 
-            opt = ask("O que deseja fazer?");
 
+            // INFO PROJETOS
+            Vector<Long> projects = user.getProjects();
+            if (projects.size() > 0) {
+                say_("\tProjetos:");
+                for (Long pid : projects) say(" " + pid);
+            }
+            else
+                say("\tNão cadastrado em projetos.");
+
+
+            // INFO ATIVIDADES
+            Vector<Long> activities = user.getActivities();
+            if (activities.size() > 0) {
+                say("\tAtividades:");
+                for (Long aid : activities) {
+                    Activity a = getActivityByID(aid);
+                    say("\t\t" + aid + " - " + a.name());
+                }
+            }
+            else
+                say("\tNenhuma atividade atribuída.");
+
+
+            opt = ask("\nO que deseja fazer?");
+
+
+            // NOME DE USUÁRIO, TROCAR
             if (opt.toLowerCase().equals("1")) {
                 String name = ask("Mudar nome para?");
                 user.setName(name);
                 continue;
             }
 
+            // FUNÇÃO, TROCAR
             if (opt.toLowerCase().equals("2")) {
                 String role = ask("Mudar função para?");
                 user.setRole(role);
                 continue;
             }
 
+
+            // ATIVIDADE, ATRIBUIR
+            if (opt.toLowerCase().equals("3")) {
+                String aid_str = ask("Qual o ID da atividade?");
+                long aid = Long.parseLong(aid_str);
+                Activity activ = getActivityByID(aid);
+                if (activ != null) {
+                    if (user.addActivity(aid))
+                        say("Atividade atribuída.");
+                    else
+                        say("Falha ao atribuir atividade.");
+                }
+                else
+                    say("Atividade não existe.");
+                continue;
+            }
+
+
+            // PROJETO, CADASTRAR EM
+            if (opt.toLowerCase().equals("4")) {
+                String pid_str = ask("Qual o ID do projeto?");
+                long pid = Long.parseLong(pid_str);
+                user.addProject(pid);
+                continue;
+            }
+
+
+            // EXCLUIR / DELETAR
             if (opt.toLowerCase().equals("del")) {
                 user_base.remove(user);
                 say(user.name() + " removido.");

@@ -6,8 +6,8 @@ public class ProjectViews extends View {
 
 
 
-    public ProjectViews(Vector<User> ub,  Vector<Activity> ab, Vector<Project> pb, String pl, String pd) {
-        super(ub, ab, pb, pl, pd);
+    public ProjectViews(String pl, String pd) {
+        super(pl, pd);
     }
 
 
