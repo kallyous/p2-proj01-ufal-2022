@@ -10,17 +10,14 @@ public class Main {
     static String opt = "";
     static String prompt_init = "";
 
-    //static Vector<User> user_base;
     static UserViews userViews;
     static String prompt_user_list_view = "";
     static String prompt_user_detail_view = "";
 
-    //static Vector<Project> proj_base;
     static ProjectViews projectViews;
     static String prompt_proj_list_view = "";
     static String prompt_proj_detail_view = "";
 
-    //static Vector<Activity> activ_base;
     static ActivityViews activityViews;
     static String prompt_act_list_view = "";
     static String prompt_act_detail_view = "";
@@ -66,15 +63,12 @@ public class Main {
     static void setup() {
 
         // Inicia base de usuários
-        //user_base = new Vector<User>();
         View.user_base = new Vector<User>();
 
         // Inicia base de projetos
-        //proj_base = new Vector<Project>();
         View.proj_base = new Vector<Project>();
 
         // Inicia base de atividades
-        //activ_base = new Vector<Activity>();
         View.activ_base = new Vector<Activity>();
 
 
@@ -188,7 +182,6 @@ public class Main {
         // Inicializa visões de usuário
         activityViews = new ActivityViews(prompt_act_list_view, prompt_act_detail_view);
     }
-
 
 
 }
