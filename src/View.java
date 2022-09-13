@@ -24,8 +24,8 @@ public class View {
     static boolean bindingUserActivity(long user_id, long activ_id) {
 
         // Carrega os envolvidos
-        Activity activ = getActivityByID(activ_id);
         User user = getUserByID(user_id);
+        Activity activ = getActivityByID(activ_id);
 
         // Aborta se usuário não existe.
         if (user == null) {
@@ -49,6 +49,42 @@ public class View {
             user.addActivity(activ_id);
             activ.addUser(user.id());
             say("Atividade '" + activ.name() + "' agora está atribuída a " + user.name() + ".");
+        }
+
+        return true;
+    }
+
+
+
+    // (Des)Associa usuário-projeto.
+    static boolean bindingUserProject(long user_id, long proj_id) {
+
+        // Carrega os envolvidos
+        User user = getUserByID(user_id);
+        Project proj = getProjectByID(proj_id);
+
+        // Aborta se usuário não existe.
+        if (user == null) {
+            say("Não existe usuário com ID " + user_id);
+            return false; }
+
+        // Aborta se atividade não existe.
+        if (proj == null) {
+            say("Não existe projeto com ID " + proj_id);
+            return false; }
+
+        // Desassocia usuário e projeto se já estão associados.
+        if (user.getProjects().contains(proj_id)) {
+            user.removeProject(proj_id);
+            proj.removeUser(user.id());
+            say(user.name() + " foi removido do projeto " + proj.name() + ".");
+        }
+
+        // Associa usuário e projeto se não estavam associados.
+        else {
+            user.addProject(proj_id);
+            proj.addUser(user.id());
+            say(user.name() + " agora está cadastrado no projeto " + proj.name() + ".");
         }
 
         return true;

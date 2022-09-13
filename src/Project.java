@@ -10,6 +10,8 @@ public class Project extends Entity {
 
     public Project(long id) {
         super(id);
+        users = new Vector<Long>();
+        activities = new Vector<Long>();
     }
 
 

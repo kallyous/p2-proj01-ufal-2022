@@ -150,20 +150,17 @@ public class UserViews extends View {
 
             // PROJETO, CADASTRAR EM
             if (opt.toLowerCase().equals("4")) {
+
                 say("\nProjetos disponíveis:");
                 for (Project p : proj_base)
                     say("  ID " + p.id() + " - " + p.name());
+
                 String pid_str = ask("\nID do projeto no qual cadastrar?");
                 long pid = Long.parseLong(pid_str);
-                Project proj = getProjectByID(pid);
-                if (proj != null) {
-                    if (user.addProject(pid))
-                        say("\nATENÇÃO: " + user.name() + " cadastrado em " + proj.name() + " com sucesso.");
-                    else
-                        say("\nATENÇÃO: " + user.name() + " já cadastrado em " + proj.name() + ".");
-                }
-                else
-                    say("Projeto não existe.");
+
+                // Vincula ou desvincula usuário e projeto.
+                bindingUserProject(user.id(), pid);
+
                 continue;
             }
 

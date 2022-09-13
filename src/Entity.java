@@ -29,6 +29,14 @@ public class Entity {
 
 
 
+    // EXCLUIR ENTIDADE
+    public void delete() {
+        System.out.println("Entity.delete() NÃO IMPLEMENTADO");
+        return;
+    }
+
+
+
     // USUÁRIOS
     public Vector<Long> getUsers() {return users; }
     public boolean addUser(long user_id) {
