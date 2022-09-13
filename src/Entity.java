@@ -5,15 +5,16 @@ import java.util.Vector;
 public class Entity {
 
     long id;
+    EntiType type;
     String name;
-    Vector<Long> users;
-    Vector<Long> projects;
-    Vector<Long> activities;
+    Vector<Binding> bindings;
 
 
 
-    public Entity(long id) {
+    public Entity(long id, EntiType type) {
         this.id = id;
+        this.type = type;
+        bindings = new Vector<Binding>();
     }
 
 
@@ -23,44 +24,63 @@ public class Entity {
 
 
 
+    // Tipo da entidade
+    public EntiType type() { return type; }
+
+
+
     // NOME
     public String name() { return name; }
     public void setName(String name) { this.name = name; }
 
 
 
-    // EXCLUIR ENTIDADE
-    public void delete() {
-        System.out.println("Entity.delete() NÃO IMPLEMENTADO");
-        return;
+    // VÍNCULOS ENTRE ENTIDADES
+
+    public Binding getBinding(long id) {
+        for (Binding b : bindings)
+            if (b.id() == id) return b;
+        return null; }
+
+    public boolean addBinding(long id, EntiType type) {
+        if (getBinding(id) != null) return false;
+        if (this.type == type) return false;
+        return bindings.add( new Binding(id, type) ); }
+
+    public boolean removeBinding(long id) {
+        Binding b = getBinding(id);
+        if (b == null) return false;
+        return bindings.remove(b);
     }
 
-
-
-    // USUÁRIOS
-    public Vector<Long> getUsers() {return users; }
-    public boolean addUser(long user_id) {
-        if (users.contains(user_id)) return false;
-        return users.add(user_id); }
-    public boolean removeUser(long user_id) { return users.remove(user_id); }
+    public Vector<Binding> bindings() { return bindings; }
 
 
 
-    // PROJETOS
-    public Vector<Long> getProjects() { return projects; }
-    public boolean addProject(long proj_id) {
-        if (projects.contains(proj_id)) return false;
-        return projects.add(proj_id); }
-    public boolean removeProject(long proj_id) { return projects.remove(proj_id); }
+    // USUÁRIOS VINCULADOS
+    public Vector<Long> getUsers() {
+        Vector<Long> users = new Vector<Long>();
+        for (Binding b : bindings)
+            if (b.type == EntiType.USER) users.add(b.id());
+        return users; }
 
 
 
-    // ATIVIDADES
-    public Vector<Long> getActivities() {return activities; }
-    public boolean addActivity(long activ_id) {
-        if (activities.contains(activ_id)) return false;
-        return activities.add(activ_id); }
-    public boolean removeActivity(long activ_id) { return activities.remove(activ_id); }
+    // PROJETOS VINCULADOS
+    public Vector<Long> getProjects() {
+        Vector<Long> projs = new Vector<Long>();
+        for (Binding b : bindings)
+            if (b.type == EntiType.PROJECT) projs.add(b.id());
+        return projs; }
+
+
+
+    // ATIVIDADES VINCULADAS
+    public Vector<Long> getActivities() {
+        Vector<Long> activs = new Vector<Long>();
+        for (Binding b : bindings)
+            if (b.type == EntiType.ACTIVITY) activs.add(b.id());
+        return activs; }
 
 
 }

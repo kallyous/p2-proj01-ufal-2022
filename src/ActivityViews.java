@@ -84,7 +84,6 @@ public class ActivityViews extends View {
             }
 
             if (opt.toLowerCase().equals("del")) {
-
                 activ_base.remove(activ);
                 say(activ.name() + " removida.");
                 opt = "voltar";

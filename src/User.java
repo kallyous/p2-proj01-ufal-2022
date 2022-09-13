@@ -8,11 +8,8 @@ public class User extends Entity {
 
 
 
-    public User(long id)
-    {
-        super(id);
-        projects = new Vector<Long>();
-        activities = new Vector<Long>();
+    public User(long id) {
+        super(id, EntiType.USER);
     }
 
 
@@ -21,17 +18,5 @@ public class User extends Entity {
     public String role() { return role; }
     public void setRole(String role) { this.role = role; }
 
-
-
-    // OVERRIDES QUE IMPEDEM ASSOCIAÇÕES ENTRE USUÁRIOS
-    public Vector<Long> getUsers() {
-        View.say("ERRO: Não se associa usuário a usuário.");
-        return null; }
-    public boolean addUser(long user_id) {
-        View.say("ERRO: Não se associa usuário a usuário.");
-        return false; }
-    public boolean removeUser(long user_id) {
-        View.say("ERRO: Não se associa usuário a usuário.");
-        return false; }
 
 }

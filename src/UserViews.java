@@ -130,36 +130,56 @@ public class UserViews extends View {
 
 
 
-            // ATIVIDADE, ATRIBUIR
-            if (opt.toLowerCase().equals("3")) {
+            // PROJETO, CADASTRAR EM
+            if (opt.toLowerCase().equals("4")) {
 
-                say("\nAtividades disponíveis:");
-                for (Activity a : activ_base)
-                    say("  ID " + a.id() + " - " + a.name());
+                say("\nProjetos disponíveis:");
+                for (Entity e : proj_base)
+                    say("  ID " + e.id() + " - " + e.name());
 
-                String aid_str = ask("\nID da atividade a atribuir/remover?");
-                long aid = Long.parseLong(aid_str);
+                String id_str = ask("\nID do projeto a cadastrar ou sair?");
+                long id = Long.parseLong(id_str);
+                Entity ent = getProjectByID(id);
 
-                // Vincula ou desvincula usuário e atividade.
-                bindingUserActivity(user.id(), aid);
+                // (Des)Vincula usuário e projeto.
+                if (ent != null) {
+
+                    // Se não há vínculo, crie.
+                    if (user.getBinding(id) == null) bindEntitiesObj(user, ent);
+
+                    // Se há vínculo, desfaça.
+                    else unbindEntitiesObj(user, ent);
+
+                // Se não existe, avise.
+                } else say("Não existe projeto com ID " + id + ".");
 
                 continue;
             }
 
 
 
-            // PROJETO, CADASTRAR EM
-            if (opt.toLowerCase().equals("4")) {
+            // ATIVIDADE, ATRIBUIR
+            if (opt.toLowerCase().equals("3")) {
 
-                say("\nProjetos disponíveis:");
-                for (Project p : proj_base)
-                    say("  ID " + p.id() + " - " + p.name());
+                say("\nAtividades disponíveis:");
+                for (Entity e : activ_base)
+                    say("  ID " + e.id() + " - " + e.name());
 
-                String pid_str = ask("\nID do projeto no qual cadastrar?");
-                long pid = Long.parseLong(pid_str);
+                String id_str = ask("\nID da atividade a atribuir/remover?");
+                long id = Long.parseLong(id_str);
+                Entity ent = getActivityByID(id);
 
-                // Vincula ou desvincula usuário e projeto.
-                bindingUserProject(user.id(), pid);
+                // (Des)Vincula usuário e atividade.
+                if (ent != null) {
+
+                    // Se não há vínculo, crie.
+                    if (user.getBinding(id) == null) bindEntitiesObj(user, ent);
+
+                    // Se há vínculo, desfaça.
+                    else unbindEntitiesObj(user, ent);
+
+                // Se não existe, avise.
+                } else say("Não existe atividade com ID " + id + ".");
 
                 continue;
             }
@@ -168,6 +188,7 @@ public class UserViews extends View {
 
             // EXCLUIR / DELETAR
             if (opt.toLowerCase().equals("del")) {
+                clearBindings(user);
                 user_base.remove(user);
                 say(user.name() + " removido.");
                 opt = "voltar";

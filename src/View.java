@@ -20,74 +20,51 @@ public class View {
 
 
 
-    // (Des)Associa usuário-atividade.
-    static boolean bindingUserActivity(long user_id, long activ_id) {
+    // ASSOCIA ENTIDADES
+    static boolean bindEntitiesObj(Entity a, Entity b) {
 
-        // Carrega os envolvidos
-        User user = getUserByID(user_id);
-        Activity activ = getActivityByID(activ_id);
-
-        // Aborta se usuário não existe.
-        if (user == null) {
-            say("Não existe usuário com ID " + user_id);
+        if (a.type() == b.type()) {
+            say("ERRO: Entidades de mesmo tipo não podem ser vinculadas.");
             return false; }
 
-        // Aborta se atividade não existe.
-        if (activ == null) {
-            say("Não existe atividade com ID " + activ_id);
+        if ( !a.addBinding(b.id(), b.type()) ) {
+            say("ERRO: Falha ao criar vínculo de " + a.name() + " para " + b.name());
             return false; }
 
-        // Desassocia usuário e atividade se já estão associados.
-        if (user.getActivities().contains(activ_id)) {
-            user.removeActivity(activ_id);
-            activ.removeUser(user.id());
-            say("Atividade '" + activ.name() + "' não está mais atribuída a " + user.name() + ".");
-        }
+        if ( !b.addBinding(a.id(), a.type()) ) {
+            say("ERRO: Falha ao criar vínculo de " + b.name() + " para " + a.name());
+            a.removeBinding(b.id());
+            return false; }
 
-        // Associa usuário e atividade se não estavam associados.
-        else {
-            user.addActivity(activ_id);
-            activ.addUser(user.id());
-            say("Atividade '" + activ.name() + "' agora está atribuída a " + user.name() + ".");
-        }
+        say("Vínculo de " + a.name() + " com " + b.name() + " criado com sucesso.");
+        return true;
 
+    }
+
+
+
+    // DESASSOCIA ENTIDADES
+    static boolean unbindEntitiesObj(Entity a, Entity b) {
+        a.removeBinding(b.id());
+        b.removeBinding(a.id());
         return true;
     }
 
 
 
-    // (Des)Associa usuário-projeto.
-    static boolean bindingUserProject(long user_id, long proj_id) {
+    // DESVINCULA TUDO PARA APAGAR ENTIDADE
+    static void clearBindings(Entity ent) {
 
-        // Carrega os envolvidos
-        User user = getUserByID(user_id);
-        Project proj = getProjectByID(proj_id);
-
-        // Aborta se usuário não existe.
-        if (user == null) {
-            say("Não existe usuário com ID " + user_id);
-            return false; }
-
-        // Aborta se atividade não existe.
-        if (proj == null) {
-            say("Não existe projeto com ID " + proj_id);
-            return false; }
-
-        // Desassocia usuário e projeto se já estão associados.
-        if (user.getProjects().contains(proj_id)) {
-            user.removeProject(proj_id);
-            proj.removeUser(user.id());
-            say(user.name() + " foi removido do projeto " + proj.name() + ".");
+        for (Binding b : ent.bindings()) {
+            if (b.type() == EntiType.USER)
+                getUserByID(b.id()).removeBinding(ent.id());
+            else if (b.type() == EntiType.PROJECT)
+                getProjectByID(b.id()).removeBinding(ent.id());
+            else if (b.type() == EntiType.ACTIVITY)
+                getActivityByID(b.id()).removeBinding(ent.id());
+            ent.removeBinding(b.id());
         }
 
-        // Associa usuário e projeto se não estavam associados.
-        else {
-            user.addProject(proj_id);
-            proj.addUser(user.id());
-            say(user.name() + " agora está cadastrado no projeto " + proj.name() + ".");
-        }
-
-        return true;
     }
 
 
