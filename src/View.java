@@ -1,4 +1,4 @@
-import java.util.Vector;               // Lista de tamanho variável
+import java.util.Vector;
 
 
 

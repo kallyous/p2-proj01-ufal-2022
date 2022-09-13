@@ -1,4 +1,4 @@
-import java.util.Vector;               // Lista de tamanho variável
+import java.util.Vector;
 
 
 
@@ -25,7 +25,8 @@ public class ProjectViews extends View {
                 say("Criando novo projeto...");
                 long id = genID();
                 String name = ask("Nome do projeto");
-                Project p = new Project(id, name);
+                Project p = new Project(id);
+                p.setName(name);
                 proj_base.add(p);
                 say(name + " cadastrado com ID " + id);
                 continue;
