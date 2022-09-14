@@ -80,30 +80,8 @@ public class UserViews extends View {
 
 
 
-            // INFO PROJETOS
-            Vector<Long> projects = user.getProjects();
-            if (projects.size() > 0) {
-                say("  Projetos:");
-                for (Long pid : projects) {
-                    Project p = getProjectByID(pid);
-                    say("    " + pid + " - " + p.name());
-                }
-            }
-            else
-                say("  Não cadastrado em projetos.");
-
-
-
-            // INFO ATIVIDADES
-            Vector<Long> activities = user.getActivities();
-            if (activities.size() > 0) {
-                say("  Atividades:");
-                for (Long aid : activities) {
-                    Activity a = getActivityByID(aid);
-                    say("    " + aid + " - " + a.name());
-                }
-            }
-            else say("  Nenhuma atividade atribuída.");
+            // INFO PROJETOS E ATIVIDADES VINCULADAS
+            displayBindings(user);
 
 
 
