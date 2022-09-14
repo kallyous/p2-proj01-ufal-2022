@@ -6,6 +6,8 @@ DETALHES DE PROJETO
 Opções:
 
 1    -  alterar nome do projeto
+2    -  cadastrar usuários no projeto
+3    -  adicionar atividades no projeto
 
 del  -  excluir projeto permamentemente
 

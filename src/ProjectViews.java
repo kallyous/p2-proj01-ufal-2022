@@ -73,17 +73,37 @@ public class ProjectViews extends View {
             say(prompt_detail);
             say("  Nome:\t" + proj.name());
             say("  ID:\t" + proj.id());
+            displayBindings(proj);
 
             opt = ask("\nO que deseja fazer?");
 
+
+            // NOME, TROCAR
             if (opt.toLowerCase().equals("1")) {
                 String name = ask("Mudar nome para?");
                 proj.setName(name);
                 continue;
             }
 
+
+
+            // USUÁRIO, INCLUIR NO PROJETO
+            if (opt.toLowerCase().equals("2")) {
+                bindingPrompt(proj, EntiType.USER);
+                continue; }
+
+
+
+            // ATIVIDADE, ADICIONAR AO PROJETO
+            if (opt.toLowerCase().equals("3")) {
+                bindingPrompt(proj, EntiType.ACTIVITY);
+                continue; }
+
+
+
+            // EXCLUIR / DELETAR
             if (opt.toLowerCase().equals("del")) {
-                proj_base.remove(proj);
+                delete(proj);
                 say(proj.name() + " removido.");
                 opt = "voltar";
             }

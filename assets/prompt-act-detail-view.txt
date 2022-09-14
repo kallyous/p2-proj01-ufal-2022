@@ -6,6 +6,8 @@ DETALHES DE ATIVIDADE
 Opções:
 
 1    -  alterar nome da atividade
+2    -  atribuir atividade a usuário
+3    -  adicionar esta atividade a um projeto
 
 del  -  excluir atividade permamentemente
 

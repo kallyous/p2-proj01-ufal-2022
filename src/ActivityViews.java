@@ -73,19 +73,39 @@ public class ActivityViews extends View {
             say(prompt_detail);
             say("  Nome:\t" + activ.name());
             say("  ID\t" + activ.id());
-            say();
+            displayBindings(activ);
 
             opt = ask("O que deseja fazer?");
 
+
+
+            // NOME, TROCAR
             if (opt.toLowerCase().equals("1")) {
                 String name = ask("Mudar nome para?");
                 activ.setName(name);
                 continue;
             }
 
+
+
+            // USUÁRIO, DELEGAR ATIVIDADE
+            if (opt.toLowerCase().equals("2")) {
+                bindingPrompt(activ, EntiType.USER);
+                continue; }
+
+
+
+            // PROJETO, INSERIR ATIVIDADE
+            if (opt.toLowerCase().equals("3")) {
+                bindingPrompt(activ, EntiType.PROJECT);
+                continue; }
+
+
+
+            // EXCLUIR / DELETAR
             if (opt.toLowerCase().equals("del")) {
-                activ_base.remove(activ);
-                say(activ.name() + " removida.");
+                delete(activ);
+                say(activ.name() + " removido.");
                 opt = "voltar";
             }
 

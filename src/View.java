@@ -20,6 +20,107 @@ public class View {
 
 
 
+    // CADASTRAR USUARIO EM PROJETO
+    static void bindingPrompt(Entity source_entity, EntiType target_type) {
+
+        if (source_entity.type() == target_type) {
+            say("ERRO: Entidades de mesmo tipo não são associáveis.");
+            return; }
+
+        displayEntities(target_type);
+
+        String id_str = ask("\nID para vincular ou desvincular:");
+        long id = Long.parseLong(id_str);
+        Entity target_entity = getEntityByID(id);
+
+        // Se a entidade alvo foi encontrada.
+        if (target_entity != null) {
+
+            // Se não há vínculo, crie.
+            if (source_entity.getBinding(id) == null)
+                bindEntitiesObj(source_entity, target_entity);
+
+            // Se há vínculo, desfaça.
+            else unbindEntitiesObj(source_entity, target_entity);
+
+        // Se entidade não existe, avise.
+        } else say("ID " + id + " não encontrado.");
+
+    }
+
+
+
+    // EXIBE VÍNCULOS
+    static void displayBindings(Entity ent) {
+
+        Vector<User> users = new Vector<User>();
+        Vector<Project> projs = new Vector<Project>();
+        Vector<Activity> activs = new Vector<Activity>();
+
+        try {
+            for (Binding b : ent.bindings()) {
+                Entity e = getEntityByID(b.id());
+                if (e.type() == EntiType.USER) users.add( (User) e);
+                else if (e.type() == EntiType.PROJECT) projs.add( (Project) e);
+                else activs.add( (Activity) e);
+            }
+        }
+        catch (NullPointerException e) {
+            say("EXCEÇÃO: NullPointerException no local esperado.");
+            return;
+        }
+
+
+
+        // Exibe pessoas vinculadas.
+        if (ent.type() != EntiType.USER) {
+            say("  Pessoas vinculadas:");
+            for (User u : users) say("    ID " + u.id() + " - " + u.name() + ", " + u.role());
+        }
+
+        // Exibe projetos vinculados.
+        if (ent.type() != EntiType.PROJECT) {
+            if (ent.type() == EntiType.USER) {
+                say("  Participa no projetos:");
+                for (Project p : projs) say("    ID " + p.id() + " - " + p.name());
+            }
+            else {
+                say_("  Pertence ao projeto:");
+                for (Project p : projs) say("    ID " + p.id() + " - " + p.name());
+                say();
+            }
+        }
+
+        // Exibe atividades vinculadas.
+        if (ent.type() != EntiType.ACTIVITY) {
+            say("  Atividades:");
+            for (Activity a : activs) say("    ID " + a.id() + " - " + a.name());
+        }
+
+    }
+
+
+    // EXIBE ENTIDADES DA CATEGORIA ESCOLHIDA
+    static void displayEntities(EntiType type) {
+
+        if (type == EntiType.USER) {
+            say("\nUsuários disponíveis:");
+            for (Entity e : user_base) say("  ID " + e.id() + " - " + e.name()); }
+
+        else if (type == EntiType.PROJECT) {
+            say("\nProjetos disponíveis:");
+            for (Entity e : proj_base)
+                say("  ID " + e.id() + " - " + e.name()); }
+
+        else if (type == EntiType.ACTIVITY) {
+            say("\nAtividades disponíveis:");
+            for (Entity e : activ_base)
+                say("  ID " + e.id() + " - " + e.name()); }
+
+    }
+
+
+
     // ASSOCIA ENTIDADES
     static boolean bindEntitiesObj(Entity a, Entity b) {
 
@@ -52,17 +153,32 @@ public class View {
 
 
 
+    // REMOVE ENTIDADE
+    static void delete(Entity ent) {
+
+        clearBindings(ent);
+
+        if (user_base.contains(ent)) {
+            user_base.remove(ent);
+            return; }
+
+        if (proj_base.contains(ent)) {
+            proj_base.remove(ent);
+            return; }
+
+        if (activ_base.contains(ent)) {
+            activ_base.remove(ent);
+            return; }
+    }
+
+
+
     // DESVINCULA TUDO PARA APAGAR ENTIDADE
     static void clearBindings(Entity ent) {
 
         for (Binding b : ent.bindings()) {
-            if (b.type() == EntiType.USER)
-                getUserByID(b.id()).removeBinding(ent.id());
-            else if (b.type() == EntiType.PROJECT)
-                getProjectByID(b.id()).removeBinding(ent.id());
-            else if (b.type() == EntiType.ACTIVITY)
-                getActivityByID(b.id()).removeBinding(ent.id());
-            ent.removeBinding(b.id());
+            Entity e = getEntityByID(b.id());
+            e.removeBinding(ent.id());
         }
 
     }
@@ -92,6 +208,18 @@ public class View {
         for (Activity a : activ_base)
             if (a.id() == id) return a;
             return null;
+    }
+
+
+
+    // Acha entidade pelo ID
+    static Entity getEntityByID(long id) {
+        Entity e = getUserByID(id);
+        if (e != null) return e;
+        e = getProjectByID(id);
+        if (e != null) return e;
+        e = getActivityByID(id);
+        return e;
     }
 
 
