@@ -176,10 +176,14 @@ public class View {
     // DESVINCULA TUDO PARA APAGAR ENTIDADE
     static void clearBindings(Entity ent) {
 
+        Vector<Long> bind_ids = new Vector<Long>();
+
         for (Binding b : ent.bindings()) {
             Entity e = getEntityByID(b.id());
             e.removeBinding(ent.id());
-        }
+            bind_ids.add(e.id()); }
+
+        for (long id : bind_ids) ent.removeBinding(id);
 
     }
 
