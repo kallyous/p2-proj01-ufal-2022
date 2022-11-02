@@ -1,15 +1,17 @@
+package projetator;
+
 import java.util.Vector;
 
 
 
-public class Project extends Entity {
+public class Activity extends Entity {
 
     String description;
 
 
 
-    public Project(long id) {
-        super(id, EntiType.PROJECT);
+    public Activity(long id) {
+        super(id, EntiType.ACTIVITY);
     }
 
 

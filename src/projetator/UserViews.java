@@ -1,3 +1,7 @@
+package projetator;
+
+import static projetator.ConsoleIO.ask;
+import static projetator.ConsoleIO.say;
 import java.util.Vector;
 
 
@@ -39,7 +43,11 @@ public class UserViews extends View {
             if (opt.toLowerCase().equals("listar")) {
                 say("\nID \t\t\tFunção \t\t\tNome");
                 say("--------------------------------------------------------------------------------");
-                for (User u : user_base) say(u.id() + "\t\t\t" + u.role() + "\t\t\t" + u.name());
+                User u;
+                for (Entity e : user_base) {
+                    u = (User) e;
+                    say(u.id() + "\t\t\t" + u.role() + "\t\t\t" + u.name());
+                }
                 continue;
             }
 
@@ -47,7 +55,9 @@ public class UserViews extends View {
             try {
                 long id = Long.parseLong(opt);
                 boolean match = false;
-                for (User u : user_base) {
+                User u;
+                for (Entity e : user_base) {
+                    u = (User) e;
                     if (u.id() == id) {
                         match = true;
                         detail(u);

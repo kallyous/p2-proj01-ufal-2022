@@ -1,5 +1,7 @@
-import java.util.Vector;
+package projetator;
 
+import static projetator.ConsoleIO.ask;
+import static projetator.ConsoleIO.say;
 
 
 public class ActivityViews extends View {
@@ -28,7 +30,7 @@ public class ActivityViews extends View {
                 String name = ask("Nome da atividade");
                 Activity a = new Activity(id);
                 a.setName(name);
-                activ_base.add(a);
+                actv_base.add(a);
                 say(name + " cadastrada com ID " + id);
                 continue;
             }
@@ -37,7 +39,7 @@ public class ActivityViews extends View {
             if (opt.toLowerCase().equals("listar")) {
                 say("\nID \t\t\tNome");
                 say("--------------------------------------------------------------------------------");
-                for (Activity a : activ_base) say(a.id() + "\t\t\t" + a.name());
+                for (Entity e : actv_base) say(e.id() + "\t\t\t" + e.name());
                 continue;
             }
 
@@ -45,9 +47,11 @@ public class ActivityViews extends View {
             try {
                 long id = Long.parseLong(opt);
                 boolean match = false;
-                for (Activity a : activ_base) {
-                    if (a.id() == id) {
+                Activity a;
+                for (Entity e : actv_base) {
+                    if (e.id() == id) {
                         match = true;
+                        a = (Activity) e;
                         detail(a);
                         break;
                     }

@@ -1,26 +1,41 @@
+package projetator;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
 import java.util.Vector;
-
-
+import static projetator.ConsoleIO.ask;
+import static projetator.ConsoleIO.say;
 
 public class View {
 
-    public static Vector<User> user_base;
-    public static Vector<Activity> activ_base;
-    public static Vector<Project> proj_base;
+    public static Vector<Entity> user_base;
+    public static Vector<Entity> actv_base;
+    public static Vector<Entity> proj_base;
+
+    private static String user_base_file_path;
+    private static String actv_base_file_path;
+    private static String proj_base_file_path;
 
     String prompt_list;
     String prompt_detail;
 
 
 
-    public View(String pl, String pd) {
-        prompt_list = pl;
-        prompt_detail = pd;
+    public View(String prompt_list, String prompt_detail) {
+        this.prompt_list = prompt_list;
+        this.prompt_detail = prompt_detail;
     }
 
 
 
-    // CADASTRAR USUARIO EM PROJETO
+    // CRIA E DESTÓI VÍNCULOS ENTRE ENTIDADES
     static void bindingPrompt(Entity source_entity, EntiType target_type) {
 
         if (source_entity.type() == target_type) {
@@ -81,11 +96,11 @@ public class View {
         // Exibe projetos vinculados.
         if (ent.type() != EntiType.PROJECT) {
             if (ent.type() == EntiType.USER) {
-                say("  Participa no projetos:");
+                say("  Participa no projetos:", 0);
                 for (Project p : projs) say("    ID " + p.id() + " - " + p.name());
             }
             else {
-                say_("  Pertence ao projeto:");
+                say("  Pertence ao projeto:");
                 for (Project p : projs) say("    ID " + p.id() + " - " + p.name());
                 say();
             }
@@ -98,6 +113,7 @@ public class View {
         }
 
     }
+
 
 
     // EXIBE ENTIDADES DA CATEGORIA ESCOLHIDA
@@ -114,7 +130,7 @@ public class View {
 
         else if (type == EntiType.ACTIVITY) {
             say("\nAtividades disponíveis:");
-            for (Entity e : activ_base)
+            for (Entity e : actv_base)
                 say("  ID " + e.id() + " - " + e.name()); }
 
     }
@@ -166,8 +182,8 @@ public class View {
             proj_base.remove(ent);
             return; }
 
-        if (activ_base.contains(ent)) {
-            activ_base.remove(ent);
+        if (actv_base.contains(ent)) {
+            actv_base.remove(ent);
             return; }
     }
 
@@ -191,27 +207,27 @@ public class View {
 
     // Acha usuário pelo ID
     static User getUserByID(long id) {
-        for (User u : user_base)
-            if (u.id() == id) return u;
-            return null;
+        for (Entity e : user_base)
+            if (e.id() == id) return (User) e;
+        return null;
     }
 
 
 
     // Acha projeto pelo ID
     static Project getProjectByID(long id) {
-        for (Project p : proj_base)
-            if (p.id() == id) return p;
-            return null;
+        for (Entity e : proj_base)
+            if (e.id() == id) return (Project) e;
+        return null;
     }
 
 
 
     // Acha atividade pelo ID
     static Activity getActivityByID(long id) {
-        for (Activity a : activ_base)
-            if (a.id() == id) return a;
-            return null;
+        for (Entity e : actv_base)
+            if (e.id() == id) return (Activity) e;
+        return null;
     }
 
 
@@ -231,7 +247,7 @@ public class View {
     // IDs de usário.
     static Vector<Long> allUserIDs() {
         Vector<Long> ids = new Vector<Long>();
-        for (User u : user_base) ids.add(u.id());
+        for (Entity e : user_base) ids.add(e.id());
         return ids;
     }
 
@@ -240,7 +256,7 @@ public class View {
     // IDs de projeto.
     static Vector<Long> allProjectIDs() {
         Vector<Long> ids = new Vector<Long>();
-        for (Project p : proj_base) ids.add(p.id());
+        for (Entity e : proj_base) ids.add(e.id());
         return ids;
     }
 
@@ -249,7 +265,7 @@ public class View {
     // IDs de atividade.
     static Vector<Long> allActivityIDs() {
         Vector<Long> ids = new Vector<Long>();
-        for (Activity a : activ_base) ids.add(a.id());
+        for (Entity e : actv_base) ids.add(e.id());
         return ids;
     }
 
@@ -273,33 +289,92 @@ public class View {
 
 
 
-    // Atalho para promts
-    static String ask(String prompt) {
-        System.out.println(prompt);
-        String answer = System.console().readLine();
-        return answer;
+    // Define caminhos dos arquivos das bases de dados.
+    static void setDatapath(String data_folder) {
+        user_base_file_path = data_folder + "/user_base.json";
+        actv_base_file_path = data_folder + "/activity_base.json";
+        proj_base_file_path = data_folder + "/project_base.json";
     }
 
 
 
-    // Atalho para escrever tralha na tela.
-    static void say(String text) {
-        System.out.println(text);
+    // Sava dados.
+    static void saveEverything() {
+        dumpEntities(user_base, user_base_file_path);
+        dumpEntities(actv_base, actv_base_file_path);
+        dumpEntities(proj_base, proj_base_file_path);
     }
 
 
 
-    // Atalho para escrever linha vazia na tela.
-    static void say() {
-        System.out.println();
+    // Carrega dados.
+    public static void loadEverything() {
+        loadEntities(user_base, user_base_file_path);
+        loadEntities(actv_base, actv_base_file_path);
+        loadEntities(proj_base, proj_base_file_path);
     }
 
 
 
-    // Atalho para escrever tralha na tela sem newline ao final.
-    static void say_(String text) {
-        System.out.print(text);
+    // Descarrega entidades.
+    @SuppressWarnings("unchecked")
+    static void dumpEntities(Vector<Entity> base, String data_file_path) {
+
+        JSONArray jarr = new JSONArray();          // Array JSON para salvar codificar a base.
+        File fobj = new File(data_file_path);  // Para criar novo arquivo caso não exista.
+
+        // Lê e codifica todas as entidades da base em JSON no array JSON.
+        for (Entity e : base) {
+            JSONObject jobj = EntityDecoder.encode(e, e.type());
+            jarr.add(jobj);
+        }
+
+        // Salva a string JSON com toda a base no arquivo JSON especificado em data_file_path.
+        try {
+            fobj.createNewFile();                          // Cria arquivo se não existe ainda.
+            FileWriter wobj = new FileWriter(data_file_path);  // Abre arquivo em modo de escrita.
+            wobj.write(jarr.toJSONString());                   // Escreve string JSON no arquivo.
+            wobj.close();                                      // Fecha arquivo.
+        }
+        catch (IOException e) {
+            System.out.println("Erro ao criar/escrever arquivo: " + data_file_path);
+            e.printStackTrace();
+        }
+
     }
 
+
+
+    // Carrega entidades
+    static void loadEntities(Vector<Entity> base, String data_file_path) {
+
+        JSONParser jparser = new JSONParser();
+        JSONObject jobj;
+        JSONArray jarr;
+        File fobj = new File(data_file_path);
+        String data = "";
+        Entity e;
+
+        try {
+            Scanner sobj = new Scanner(fobj);
+            while (sobj.hasNextLine())
+                data += sobj.nextLine();
+            sobj.close();
+            jarr = (JSONArray) jparser.parse(data);
+            for (Object o : jarr) {
+                e = EntityDecoder.decode((JSONObject) o);
+                if (e != null) base.add(e);
+                else say("Erro ao interpretar " + o.toString() + ". Objeto ignorado.");
+            }
+        }
+        catch (FileNotFoundException ex) {
+            say("Arquivo " + data_file_path + " não existente. Iniciando com base limpa.");
+        }
+        catch (ParseException ex) {
+            say("Erro de interpretação de JSON com JSONParser().");
+            throw new RuntimeException(ex);
+        }
+
+    }
 
 }

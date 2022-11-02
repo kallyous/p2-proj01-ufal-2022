@@ -1,3 +1,7 @@
+package projetator;
+
+import static projetator.ConsoleIO.ask;
+import static projetator.ConsoleIO.say;
 import java.util.Vector;
 
 
@@ -37,7 +41,7 @@ public class ProjectViews extends View {
             if (opt.toLowerCase().equals("listar")) {
                 say("\nID \t\t\tNome");
                 say("--------------------------------------------------------------------------------");
-                for (Project p : proj_base) say(p.id() + "\t\t\t" + p.name());
+                for (Entity e : proj_base) say(e.id() + "\t\t\t" + e.name());
                 continue;
             }
 
@@ -45,9 +49,11 @@ public class ProjectViews extends View {
             try {
                 long id = Long.parseLong(opt);
                 boolean match = false;
-                for (Project p : proj_base) {
-                    if (p.id() == id) {
+                Project p;
+                for (Entity e : proj_base) {
+                    if (e.id() == id) {
                         match = true;
+                        p = (Project) e;
                         detail(p);
                         break;
                     }

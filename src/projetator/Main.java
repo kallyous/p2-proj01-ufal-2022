@@ -1,3 +1,7 @@
+package projetator;
+
+import static projetator.ConsoleIO.ask;
+import static projetator.ConsoleIO.say;
 import java.io.File;                   // Import the File class
 import java.io.FileNotFoundException;  // Import this class to handle errors
 import java.util.Scanner;              // Import the Scanner class to read text files
@@ -22,19 +26,21 @@ public class Main {
     static String prompt_act_list_view = "";
     static String prompt_act_detail_view = "";
 
+    static String data_folder = "data";
+
 
 
     // LAÇO CENTRAL
     public static void main(String[] args)
     {
-        // Carrega informações iniciais.
+        // Configura aplicação e carrega bases de dados de usuários, projetos e atividades.
         setup();
 
         // Laço principal.
         while (!opt.toLowerCase().equals("sair")) {
+
             // Prompt inicial
-            System.out.print(prompt_init);
-            opt = System.console().readLine();
+            opt = ask(prompt_init, 0);
 
             // Chama visão de CRUD de usuários.
             if (opt.toLowerCase().equals("usuarios")) {
@@ -55,21 +61,38 @@ public class Main {
             }
 
         }
+
+        // Salva dados e relações em JSONs.
+        say("Encerrando...");
+        View.saveEverything();
     }
 
 
 
-    // SETUP - Carrega dados e configura coisas
+    // SETUP - Carrega prompts e configura coisas.
     static void setup() {
 
+        // Testa (de)codificação JSON.
+        //EntityDecoder.test();
+
+        // Detecta e/ou cria diretório de dados.
+        File directory = new File(data_folder);
+        if (!directory.exists()) directory.mkdirs();
+
         // Inicia base de usuários
-        View.user_base = new Vector<User>();
+        View.user_base = new Vector<Entity>();
 
         // Inicia base de projetos
-        View.proj_base = new Vector<Project>();
+        View.proj_base = new Vector<Entity>();
 
         // Inicia base de atividades
-        View.activ_base = new Vector<Activity>();
+        View.actv_base = new Vector<Entity>();
+
+        // Configura caminho dos arquivos de base de dados.
+        View.setDatapath(data_folder);
+
+        // Carrega bases de dados salvas.
+        View.loadEverything();
 
 
         // Prompt inicial
@@ -182,6 +205,5 @@ public class Main {
         // Inicializa visões de usuário
         activityViews = new ActivityViews(prompt_act_list_view, prompt_act_detail_view);
     }
-
 
 }

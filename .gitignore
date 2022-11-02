@@ -25,3 +25,7 @@ hs_err_pid*
 # Intellij Idea generated files
 proj-01.iml
 /.idea
+
+# Project specific
+/data
+
