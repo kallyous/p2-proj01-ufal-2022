@@ -11,6 +11,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
+import static projetator.ConsoleIO.say;
+
 public class EntityDecoder {
 
     public static Entity decode(JSONObject jobj) {
@@ -33,13 +35,34 @@ public class EntityDecoder {
             e = new Activity(id);
         }
 
-
         else return null;
 
         e.setName( (String) jobj.get("nome"));
 
+        decodeBindings(e, jobj);
+
         return e;
     }
+
+
+    private static void decodeBindings(Entity e, JSONObject jo) {
+        JSONArray ja;
+        String id_str;
+
+        try {
+            ja = (JSONArray) jo.get("relações");
+        }
+        catch (NullPointerException ex) { return; }
+
+        if (ja.size() < 1) return;
+
+        for (Object o : ja) {
+            JSONObject b = (JSONObject) o;
+            id_str = b.keySet().stream().findFirst().get().toString();
+            e.addBinding( Long.parseLong(id_str), EntiType.valueOf(b.get(id_str).toString()) );
+        }
+    }
+
 
     @SuppressWarnings("unchecked")
     public static void test() {

@@ -1,5 +1,6 @@
 package projetator;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import static projetator.ConsoleIO.say;
@@ -13,6 +14,8 @@ public class EntityEncoder {
         jobj.put("id", entity.id());
         jobj.put("nome", entity.name());
         jobj.put("type", entity.type().name());
+
+        encodeBindings(entity, jobj);
 
         if (entity.type().name().equals(EntiType.USER.name()))
             encodeUser((User) entity, jobj);
@@ -41,4 +44,17 @@ public class EntityEncoder {
         jobj.put("descrição", actv.description());
     }
 
+    @SuppressWarnings("unchecked")
+    private static void encodeBindings(Entity e, JSONObject jo) {
+        JSONArray ja = new JSONArray();
+        JSONObject pair;
+
+        for (Binding b : e.bindings()) {
+            pair = new JSONObject();
+            pair.put(b.id(), b.type().name());
+            ja.add(pair);
+        }
+
+        jo.put("relações", ja);
+    }
 }

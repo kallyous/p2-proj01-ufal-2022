@@ -6,8 +6,8 @@ import java.util.Vector;
 
 public class Entity {
 
-    private long id;
-    private EntiType type;
+    private final long id;
+    private final EntiType type;
     private String name;
     private Vector<Binding> bindings;
 
