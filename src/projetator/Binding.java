@@ -3,8 +3,8 @@ package projetator;
 
 public class Binding {
 
-    long id;
-    EntiType type;
+    private long id;
+    private EntiType type;
 
 
 

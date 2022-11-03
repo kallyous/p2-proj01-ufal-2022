@@ -1,4 +1,5 @@
 package projetator;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -10,6 +11,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 import java.util.Vector;
+
 import static projetator.ConsoleIO.ask;
 import static projetator.ConsoleIO.say;
 
@@ -72,19 +74,20 @@ public class View {
         Vector<Project> projs = new Vector<Project>();
         Vector<Activity> activs = new Vector<Activity>();
 
+        // Coleta todos os bindings da antidade e separa por tipo.
         try {
             for (Binding b : ent.bindings()) {
                 Entity e = getEntityByID(b.id());
                 if (e.type() == EntiType.USER) users.add( (User) e);
                 else if (e.type() == EntiType.PROJECT) projs.add( (Project) e);
-                else activs.add( (Activity) e);
+                else if (e.type() == EntiType.ACTIVITY) activs.add( (Activity) e);
+                else say("Binding desconhecido com " + b.id() + ", ignorando-o.");
             }
         }
         catch (NullPointerException e) {
             say("EXCEÇÃO: NullPointerException no local esperado.");
             return;
         }
-
 
 
         // Exibe pessoas vinculadas.
@@ -325,7 +328,7 @@ public class View {
 
         // Lê e codifica todas as entidades da base em JSON no array JSON.
         for (Entity e : base) {
-            JSONObject jobj = EntityDecoder.encode(e, e.type());
+            JSONObject jobj = EntityEncoder.encode(e);
             jarr.add(jobj);
         }
 

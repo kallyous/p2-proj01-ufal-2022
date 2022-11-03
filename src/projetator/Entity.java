@@ -6,10 +6,10 @@ import java.util.Vector;
 
 public class Entity {
 
-    long id;
-    EntiType type;
-    String name;
-    Vector<Binding> bindings;
+    private long id;
+    private EntiType type;
+    private String name;
+    private Vector<Binding> bindings;
 
 
 
@@ -63,7 +63,7 @@ public class Entity {
     public Vector<Long> getUsers() {
         Vector<Long> users = new Vector<Long>();
         for (Binding b : bindings)
-            if (b.type == EntiType.USER) users.add(b.id());
+            if (b.type() == EntiType.USER) users.add(b.id());
         return users; }
 
 
@@ -72,7 +72,7 @@ public class Entity {
     public Vector<Long> getProjects() {
         Vector<Long> projs = new Vector<Long>();
         for (Binding b : bindings)
-            if (b.type == EntiType.PROJECT) projs.add(b.id());
+            if (b.type() == EntiType.PROJECT) projs.add(b.id());
         return projs; }
 
 
@@ -81,7 +81,7 @@ public class Entity {
     public Vector<Long> getActivities() {
         Vector<Long> activs = new Vector<Long>();
         for (Binding b : bindings)
-            if (b.type == EntiType.ACTIVITY) activs.add(b.id());
+            if (b.type() == EntiType.ACTIVITY) activs.add(b.id());
         return activs; }
 
 

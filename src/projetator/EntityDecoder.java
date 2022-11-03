@@ -1,39 +1,17 @@
 package projetator;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Scanner;
-import java.io.FileNotFoundException;
-
-import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
+
 public class EntityDecoder {
-
-    // Singleton. Default data path. Use setDatapath() para mudar data path.
-    private static EntityDecoder instance = new EntityDecoder("data");
-    private static String datapath;
-
-    private EntityDecoder(String new_datapath) {
-        datapath = new_datapath;
-    }
-
-    @SuppressWarnings("unchecked")
-    public static JSONObject encode(Entity entity, EntiType type) {
-        JSONObject jobj = new JSONObject();
-
-        jobj.put("id", entity.id());
-        jobj.put("nome", entity.name());
-        jobj.put("type", entity.type().name());
-
-        if (entity.type().name().equals(EntiType.USER.name()))
-            encodeUser((User) entity, jobj);
-
-        return jobj;
-    }
 
     public static Entity decode(JSONObject jobj) {
 
@@ -47,11 +25,14 @@ public class EntityDecoder {
             ((User) e).setRole(jobj.get("função").toString());
         }
 
-        else if (type == EntiType.PROJECT)
-            e = new Entity(id, type);
+        else if (type == EntiType.PROJECT) {
+            e = new Project(id);
+        }
 
-        else if (type == EntiType.ACTIVITY)
-            e = new Entity(id, type);
+        else if (type == EntiType.ACTIVITY) {
+            e = new Activity(id);
+        }
+
 
         else return null;
 
@@ -59,17 +40,6 @@ public class EntityDecoder {
 
         return e;
     }
-
-    @SuppressWarnings("unchecked")
-    private static void encodeUser(User user, JSONObject jobj) {
-        jobj.put("função", user.role());
-    }
-
-    public static EntityDecoder getInstance() { return instance; }
-
-    public static void setDatapath(String new_datapath) { datapath = new_datapath; }
-
-    public static String getDatapath() { return datapath; }
 
     @SuppressWarnings("unchecked")
     public static void test() {

@@ -1,9 +1,5 @@
 package projetator;
 
-import java.util.Vector;
-
-
-
 public class User extends Entity {
 
     String role;

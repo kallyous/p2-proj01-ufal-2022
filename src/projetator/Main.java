@@ -1,11 +1,12 @@
 package projetator;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+import java.util.Vector;
+
 import static projetator.ConsoleIO.ask;
 import static projetator.ConsoleIO.say;
-import java.io.File;                   // Import the File class
-import java.io.FileNotFoundException;  // Import this class to handle errors
-import java.util.Scanner;              // Import the Scanner class to read text files
-import java.util.Vector;               // Lista de tamanho variável
 
 
 

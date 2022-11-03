@@ -2,7 +2,6 @@ package projetator;
 
 import static projetator.ConsoleIO.ask;
 import static projetator.ConsoleIO.say;
-import java.util.Vector;
 
 
 
