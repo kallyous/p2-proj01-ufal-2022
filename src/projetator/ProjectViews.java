@@ -2,6 +2,7 @@ package projetator;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Vector;
 
 import static projetator.ConsoleIO.ask;
 import static projetator.ConsoleIO.say;
@@ -180,25 +181,27 @@ public class ProjectViews extends View {
 
         String opt = "";
 
-        while(!opt.toLowerCase().equals("voltar")) {
+        while(!opt.equalsIgnoreCase("voltar")) {
 
             say(prompt_detail);
             say("  ID:\t" + proj.id());
             say("  Nome:\t" + proj.name());
             say("  Início:\t" + proj.startTime().format(datetime_formatter));
             say("  Término:\t" + proj.endTime().format(datetime_formatter));
-            say("  Vigência das bolsas:\t" + proj.payStartTime().format(datetime_formatter) + " - " + proj.payEndTime().format(datetime_formatter));
+            say("  Vigência das bolsas:\t" + proj.payStartTime().format(datetime_formatter)
+                    + " - " + proj.payEndTime().format(datetime_formatter));
             say("  Descrição do projeto: \t" + proj.description());
 
             displayBindings(proj);
 
-            say("  Bolsistas: ???");
+            say("  Bolsistas:");
+            for (Pair s : proj.pays()) say("    UID " + s.key() + ", valor da bolsa R$" + s.value());
 
             opt = ask("\nO que deseja fazer?");
 
 
             // NOME, TROCAR
-            if (opt.toLowerCase().equals("1")) {
+            if (opt.equals("1")) {
                 String name = ask("Mudar nome para?");
                 proj.setName(name);
                 continue;
@@ -207,21 +210,27 @@ public class ProjectViews extends View {
 
 
             // USUÁRIO, INCLUIR NO PROJETO
-            if (opt.toLowerCase().equals("2")) {
+            if (opt.equals("2")) {
                 bindingPrompt(proj, EntiType.USER);
                 continue; }
 
 
 
             // ATIVIDADE, ADICIONAR AO PROJETO
-            if (opt.toLowerCase().equals("3")) {
+            if (opt.equals("3")) {
                 bindingPrompt(proj, EntiType.ACTIVITY);
                 continue; }
 
 
+            // ADICIONAR BOLSA
+            if (opt.equals("4")) {
+                addScholarshipPayPrompt(proj);
+                continue;
+            }
+
 
             // EXCLUIR / DELETAR
-            if (opt.toLowerCase().equals("del")) {
+            if (opt.equalsIgnoreCase("del")) {
                 delete(proj);
                 say(proj.name() + " removido.");
                 opt = "voltar";
@@ -231,6 +240,26 @@ public class ProjectViews extends View {
 
     }
 
+
+    private void addScholarshipPayPrompt(Project p) {
+
+        Vector<Long> users_ids = p.getUsers();
+        long choosen_id = -1;
+        double payment_value = 0;
+
+        if (users_ids.size() < 1) {
+            say("Nenhuma pessoa ativa no projeto para receber bolsas. Cadastre pessoas no projeto primeiro.");
+            return; }
+
+        say("Usuários cadastrados no projeto:");
+        for (long uid : users_ids) say(" " + uid, 0);
+        say("\n");
+        choosen_id = Long.parseLong(ask("Qual ID?"));
+        payment_value = Double.parseDouble(ask("Qual o valor da bolsa?"));
+
+        Pair<Long, Double> scholarship = new Pair<>(choosen_id, payment_value);
+        p.pays().add(scholarship);
+    }
 
 
 }

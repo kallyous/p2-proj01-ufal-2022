@@ -89,6 +89,17 @@ public class EntityDecoder {
         date_time = LocalDateTime.parse(value, datetime_formatter);
         p.setPayEndTime(date_time);
 
+        try {
+            for (Object b : (JSONArray) jo.get("bolsas")) {
+                value = (String) ((JSONObject) b).keySet().stream().findFirst().get();
+                Pair<Long, Double> pay = new Pair<>(
+                        Long.parseLong(value),
+                        (double) ((JSONObject) b).get(value) );
+                p.pays().add(pay);
+            }
+        }
+        catch (NullPointerException ex) {}
+
     }
 
 

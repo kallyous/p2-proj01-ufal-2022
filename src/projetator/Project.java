@@ -18,6 +18,7 @@ public class Project extends Entity {
     public Project(long id) {
         super(id, EntiType.PROJECT);
         description = "";
+        pays = new Vector<Pair>();
     }
 
 

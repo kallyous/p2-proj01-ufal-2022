@@ -37,12 +37,23 @@ public class EntityEncoder {
 
     @SuppressWarnings("unchecked")
     private static void encodeProject(Project p, JSONObject jo) {
+        JSONArray ja = new JSONArray();
+        JSONObject pay;
+
         jo.put("coordenador_id", p.coordinator());
         jo.put("descrição", p.description());
         jo.put("projeto_início", p.startTime().format(datetime_formatter));
         jo.put("projeto_fim", p.endTime().format(datetime_formatter));
         jo.put("vigencia_bolsa_início", p.payStartTime().format(datetime_formatter));
         jo.put("vigencia_bolsa_fim", p.payEndTime().format(datetime_formatter));
+
+        for (Pair s : p.pays()) {
+            pay = new JSONObject();
+            pay.put(s.key(), s.value());
+            ja.add(pay);
+        }
+
+        jo.put("bolsas", ja);
     }
 
     @SuppressWarnings("unchecked")

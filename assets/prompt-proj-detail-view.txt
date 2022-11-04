@@ -8,6 +8,7 @@ Opções:
 1    -  alterar nome do projeto
 2    -  cadastrar usuários no projeto
 3    -  adicionar atividades no projeto
+4    -  informar bolsa
 
 del  -  excluir projeto permamentemente
 
