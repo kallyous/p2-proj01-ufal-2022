@@ -4,14 +4,14 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Scanner;
 
-import static projetator.ConsoleIO.say;
+import static projetator.ConsoleIO.datetime_formatter;
 
 public class EntityDecoder {
 
@@ -24,20 +24,21 @@ public class EntityDecoder {
 
         if (type == EntiType.USER) {
             e = new User(id);
+            e.setName( (String) jobj.get("nome"));
             ((User) e).setRole(jobj.get("função").toString());
         }
 
         else if (type == EntiType.PROJECT) {
             e = new Project(id);
+            decodeProject((Project) e, jobj);
         }
 
         else if (type == EntiType.ACTIVITY) {
             e = new Activity(id);
+            e.setName( (String) jobj.get("nome"));
         }
 
         else return null;
-
-        e.setName( (String) jobj.get("nome"));
 
         decodeBindings(e, jobj);
 
@@ -61,6 +62,33 @@ public class EntityDecoder {
             id_str = b.keySet().stream().findFirst().get().toString();
             e.addBinding( Long.parseLong(id_str), EntiType.valueOf(b.get(id_str).toString()) );
         }
+    }
+
+
+    private static void decodeProject(Project p, JSONObject jo) {
+        String value;
+        LocalDateTime date_time;
+
+        p.setName( (String) jo.get("nome"));
+        p.setCoordinator( (long) jo.get("coordenador_id") );
+        p.setDescription( (String) jo.get("descrição"));
+
+        value = (String) jo.get("projeto_início");
+        date_time = LocalDateTime.parse(value, datetime_formatter);
+        p.setStartTime(date_time);
+
+        value = (String) jo.get("projeto_fim");
+        date_time = LocalDateTime.parse(value, datetime_formatter);
+        p.setEndTime(date_time);
+
+        value = (String) jo.get("vigencia_bolsa_início");
+        date_time = LocalDateTime.parse(value, datetime_formatter);
+        p.setPayStartTime(date_time);
+
+        value = (String) jo.get("vigencia_bolsa_fim");
+        date_time = LocalDateTime.parse(value, datetime_formatter);
+        p.setPayEndTime(date_time);
+
     }
 
 

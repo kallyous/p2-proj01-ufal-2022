@@ -1,7 +1,11 @@
 package projetator;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import static projetator.ConsoleIO.ask;
 import static projetator.ConsoleIO.say;
+import static projetator.ConsoleIO.datetime_formatter;
 
 
 
@@ -26,13 +30,7 @@ public class ProjectViews extends View {
 
             // Rotina de adição de novo projeto.
             if (opt.toLowerCase().equals("novo")) {
-                say("Criando novo projeto...");
-                long id = genID();
-                String name = ask("Nome do projeto");
-                Project p = new Project(id);
-                p.setName(name);
-                proj_base.add(p);
-                say(name + " cadastrado com ID " + id);
+                create();
                 continue;
             }
 
@@ -68,6 +66,115 @@ public class ProjectViews extends View {
 
 
 
+    // CREATE VIEW
+    public void create() {
+
+        say("Criando novo projeto...");
+
+        long id = genID();
+        Project p = new Project(id);
+
+        String value = ask("Nome do projeto");
+        p.setName(value);
+
+        value = ask("Descrição do projeto");
+        p.setDescription(value);
+
+
+        // Coordenador do projeto
+        long coord_id = -1;
+        boolean valid = false;
+        do {
+            try {
+                coord_id = Long.parseLong( ask("ID do coordenador do projeto:") );
+                valid = true;
+            }
+            catch (NumberFormatException ex) {
+                say("Entre um ID válido de um professor ou pesquisador.");
+            }
+        } while (!valid);
+        p.setCoordinator(coord_id);
+
+
+        // Data e hora de início do projeto.
+        LocalDateTime date_time = null;
+        valid = false;
+        do {
+            try {
+                String datetime_str = ask("Data de início do projeto, no formato AAAA/MM/DD hh:mm");
+                date_time = LocalDateTime.parse(datetime_str, datetime_formatter);
+                valid = true;
+            }
+            catch (Exception ex) {
+                say("Entre uma data válida no formato AAAA/MM/DD hh:mm");
+            }
+        } while (!valid);
+        p.setStartTime(date_time);
+
+
+        // Data e hora de término do projeto.
+        date_time = null;
+        valid = false;
+        do {
+            try {
+                String datetime_str = ask("Data de término do projeto, no formato AAAA/MM/DD hh:mm");
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
+                date_time = LocalDateTime.parse(datetime_str, formatter);
+                valid = true;
+            }
+            catch (Exception ex) {
+                say("Entre uma data válida no formato AAAA/MM/DD hh:mm");
+            }
+        } while (!valid);
+        p.setEndTime(date_time);
+
+
+        // Data e hora do início da vigência das bolsas.
+        date_time = null;
+        valid = false;
+        do {
+            try {
+                String datetime_str = ask("Data de início da vigência das bolsas, no formato AAAA/MM/DD hh:mm");
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
+                date_time = LocalDateTime.parse(datetime_str, formatter);
+                valid = true;
+            }
+            catch (Exception ex) {
+                say("Entre uma data válida no formato AAAA/MM/DD hh:mm");
+            }
+        } while (!valid);
+        p.setPayStartTime(date_time);
+
+
+        // Data e hora do término da vigência das bolsas.
+        date_time = null;
+        valid = false;
+        do {
+            try {
+                String datetime_str = ask("Data de término da vigência das bolsas, no formato AAAA/MM/DD hh:mm");
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
+                date_time = LocalDateTime.parse(datetime_str, formatter);
+                valid = true;
+            }
+            catch (Exception ex) {
+                say("Entre uma data válida no formato AAAA/MM/DD hh:mm");
+            }
+        } while (!valid);
+        p.setPayEndTime(date_time);
+
+
+        // Adicionar bolsistas
+        value = ask("Adicionar bolsistas? (S/N)").toLowerCase();
+        if (value.equals("sim") || value.equals("s"))
+            say("Não implementado. haha!");
+
+
+        proj_base.add(p);
+        say(p.name() + " cadastrado com ID " + id);
+    }
+
+
+
     // DETAIL / ACTIONS  VIEW
     public void detail(Project proj) {
 
@@ -76,9 +183,16 @@ public class ProjectViews extends View {
         while(!opt.toLowerCase().equals("voltar")) {
 
             say(prompt_detail);
-            say("  Nome:\t" + proj.name());
             say("  ID:\t" + proj.id());
+            say("  Nome:\t" + proj.name());
+            say("  Início:\t" + proj.startTime().format(datetime_formatter));
+            say("  Término:\t" + proj.endTime().format(datetime_formatter));
+            say("  Vigência das bolsas:\t" + proj.payStartTime().format(datetime_formatter) + " - " + proj.payEndTime().format(datetime_formatter));
+            say("  Descrição do projeto: \t" + proj.description());
+
             displayBindings(proj);
+
+            say("  Bolsistas: ???");
 
             opt = ask("\nO que deseja fazer?");
 

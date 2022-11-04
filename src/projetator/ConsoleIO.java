@@ -1,6 +1,10 @@
 package projetator;
 
+import java.time.format.DateTimeFormatter;
+
 public class ConsoleIO {
+
+    static DateTimeFormatter datetime_formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
 
     // Atalho para promts
     static String ask(String prompt) {

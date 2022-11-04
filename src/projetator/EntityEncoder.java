@@ -3,6 +3,7 @@ package projetator;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import static projetator.ConsoleIO.datetime_formatter;
 import static projetator.ConsoleIO.say;
 
 public class EntityEncoder {
@@ -35,8 +36,13 @@ public class EntityEncoder {
     }
 
     @SuppressWarnings("unchecked")
-    private static void encodeProject(Project proj, JSONObject jobj) {
-        jobj.put("descrição", proj.description());
+    private static void encodeProject(Project p, JSONObject jo) {
+        jo.put("coordenador_id", p.coordinator());
+        jo.put("descrição", p.description());
+        jo.put("projeto_início", p.startTime().format(datetime_formatter));
+        jo.put("projeto_fim", p.endTime().format(datetime_formatter));
+        jo.put("vigencia_bolsa_início", p.payStartTime().format(datetime_formatter));
+        jo.put("vigencia_bolsa_fim", p.payEndTime().format(datetime_formatter));
     }
 
     @SuppressWarnings("unchecked")
