@@ -25,7 +25,7 @@ public class EntityDecoder {
         if (type == EntiType.USER) {
             e = new User(id);
             e.setName( (String) jo.get("nome"));
-            ((User) e).setRole(jo.get("função").toString());
+            ((User) e).setRole( Role.valueOf( (String) jo.get("função") ) );
         }
 
         else if (type == EntiType.PROJECT) {

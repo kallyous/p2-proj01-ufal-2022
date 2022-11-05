@@ -32,7 +32,7 @@ public class EntityEncoder {
 
     @SuppressWarnings("unchecked")
     private static void encodeUser(User user, JSONObject jobj) {
-        jobj.put("função", user.role());
+        jobj.put("função", user.role().toString());
     }
 
     @SuppressWarnings("unchecked")

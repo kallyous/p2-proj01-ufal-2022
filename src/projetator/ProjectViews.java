@@ -84,12 +84,14 @@ public class ProjectViews extends View {
         do {
             try {
                 coord_id = Long.parseLong( ask("ID do coordenador do projeto:") );
+                // TODO: validar se usuário existe e é PROFESSOR ou PESQUISADOR.
                 valid = true;
             }
             catch (NumberFormatException ex) {
                 say("Entre um ID válido de um professor ou pesquisador.");
             }
         } while (!valid);
+        // TODO: vincular usuário ao projeto.
         p.setCoordinator(coord_id);
 
 
@@ -157,10 +159,11 @@ public class ProjectViews extends View {
         p.setPayEndTime(date_time);
 
 
+        // TODO: declarar bolsistas dentre os usuários vinculados ao projeto.
         // Adicionar bolsistas
-        value = ask("Adicionar bolsistas? (S/N)").toLowerCase();
-        if (value.equals("sim") || value.equals("s"))
-            say("Não implementado. haha!");
+        //value = ask("Adicionar bolsistas? (S/N)").toLowerCase();
+        //if (value.equals("sim") || value.equals("s"))
+        //    say("Não implementado. haha!");
 
 
         proj_base.add(p);

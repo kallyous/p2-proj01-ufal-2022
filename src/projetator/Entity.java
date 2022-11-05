@@ -16,7 +16,7 @@ public class Entity {
     public Entity(long id, EntiType type) {
         this.id = id;
         this.type = type;
-        bindings = new Vector<Binding>();
+        bindings = new Vector<>();
     }
 
 
@@ -61,7 +61,7 @@ public class Entity {
 
     // USUÁRIOS VINCULADOS
     public Vector<Long> getUsers() {
-        Vector<Long> users = new Vector<Long>();
+        Vector<Long> users = new Vector<>();
         for (Binding b : bindings)
             if (b.type() == EntiType.USER) users.add(b.id());
         return users; }
@@ -70,7 +70,7 @@ public class Entity {
 
     // PROJETOS VINCULADOS
     public Vector<Long> getProjects() {
-        Vector<Long> projs = new Vector<Long>();
+        Vector<Long> projs = new Vector<>();
         for (Binding b : bindings)
             if (b.type() == EntiType.PROJECT) projs.add(b.id());
         return projs; }
@@ -79,7 +79,7 @@ public class Entity {
 
     // ATIVIDADES VINCULADAS
     public Vector<Long> getActivities() {
-        Vector<Long> activs = new Vector<Long>();
+        Vector<Long> activs = new Vector<>();
         for (Binding b : bindings)
             if (b.type() == EntiType.ACTIVITY) activs.add(b.id());
         return activs; }

@@ -29,10 +29,11 @@ public class UserViews extends View {
                 say("Criando novo usuário...");
                 long id = genID();
                 String name = ask("Nome completo da pessoa");
+                // TODO: Aplicar um seletor de função para forçar escolha de opção válida.
                 String role = ask("Função");
                 User u = new User(id);
                 u.setName(name);
-                u.setRole(role);
+                u.setRole(Role.valueOf(role));
                 user_base.add(u);
                 say(name + " cadastrado com ID " + id);
                 continue;
@@ -111,7 +112,8 @@ public class UserViews extends View {
             // FUNÇÃO, TROCAR
             if (opt.toLowerCase().equals("2")) {
                 String role = ask("Mudar função para?");
-                user.setRole(role);
+                // TODO: Aplicar um seletor de função para forçar escolha de opção válida.
+                user.setRole(Role.valueOf(role));
                 continue;
             }
 

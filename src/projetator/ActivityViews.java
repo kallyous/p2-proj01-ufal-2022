@@ -23,7 +23,7 @@ public class ActivityViews extends View {
 
         String opt = "";
 
-        while (!opt.toLowerCase().equals("voltar")) {
+        while (!opt.equalsIgnoreCase("voltar")) {
             System.out.print(prompt_list);
             opt = System.console().readLine();
 
@@ -34,7 +34,7 @@ public class ActivityViews extends View {
             }
 
             // Rotina de listagem das atividades.
-            if (opt.toLowerCase().equals("listar")) {
+            if (opt.equalsIgnoreCase("listar")) {
                 say("\nID \t\t\tNome");
                 say("--------------------------------------------------------------------------------");
                 for (Entity e : actv_base) say(e.id() + "\t\t\t" + e.name());
@@ -75,7 +75,7 @@ public class ActivityViews extends View {
             say(prompt_detail);
             say("  Nome:\t" + activ.name());
             say("  ID:\t" + activ.id());
-            say("  Coordenador:\t" + activ.supervisor());
+            say("  Responsável:\t" + activ.supervisor());
             say("  Início:\t" + activ.startTime().format(datetime_formatter));
             say("  Término:\t" + activ.endTime().format(datetime_formatter));
 
@@ -158,18 +158,21 @@ public class ActivityViews extends View {
         value = ask("Descrição da atividade");
         a.setDescription(value);
 
-        // Supervisor do projeto
+        // Responsável pela atividade.
         long supervisor_id = -1;
         boolean valid = false;
         do {
             try {
                 supervisor_id = Long.parseLong( ask("ID do supervisor da atividade") );
+                // TODO: Validar existência do usuário.
                 valid = true;
             }
             catch (NumberFormatException ex) {
                 say("Entre o ID válido de um usuário.");
             }
         } while (!valid);
+
+        // TODO: Vincular usuário à atividade.
         a.setSupervisor(supervisor_id);
 
         // Data e hora de início da atividade.
@@ -193,7 +196,7 @@ public class ActivityViews extends View {
         valid = false;
         do {
             try {
-                String datetime_str = ask("Data de término do projeto, no formato " + datetime_pattern);
+                String datetime_str = ask("Data de término da atividade, no formato " + datetime_pattern);
                 date_time = LocalDateTime.parse(datetime_str, datetime_formatter);
                 valid = true;
             }
@@ -203,10 +206,12 @@ public class ActivityViews extends View {
         } while (!valid);
         a.setEndTime(date_time);
 
-        // Adicionar profissionais
-        value = ask("Adicionar profissionais? (S/N)").toLowerCase();
-        if (value.equals("sim") || value.equals("s"))
-            say("Não implementado. haha!");
+        // TODO: Vincular usuários à atividade.
+
+        // TODO: Adicionar tarefas e vincular profissionais
+        //value = ask("Adicionar profissionais? (S/N)").toLowerCase();
+        //if (value.equals("sim") || value.equals("s"))
+        //    say("Não implementado. haha!");
 
         actv_base.add(a);
         say(a.name() + " cadastrada com ID " + id);

@@ -2,8 +2,7 @@ package projetator;
 
 public class User extends Entity {
 
-    String role;
-
+    Role role;
 
 
     public User(long id) {
@@ -11,10 +10,13 @@ public class User extends Entity {
     }
 
 
-
     // ROLE
-    public String role() { return role; }
-    public void setRole(String role) { this.role = role; }
+    public Role role() { return role; }
+    public void setRole(Role role) { this.role = role; }
+    public void setRoleByString(String role) {
+        try { this.role = Role.valueOf(role); }
+        catch (Exception ex) { this.role = Role.NAO_ESPECIFICADO; }
+    }
 
 
 }

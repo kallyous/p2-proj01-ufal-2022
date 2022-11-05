@@ -4,7 +4,7 @@ import java.time.format.DateTimeFormatter;
 
 public class ConsoleIO {
 
-    static String datetime_pattern = "yyyy/MM/dd HH:mm";
+    static String datetime_pattern = "dd-MM-yyyy HH:mm";
     static DateTimeFormatter datetime_formatter = DateTimeFormatter.ofPattern(datetime_pattern);
 
     // Atalho para promts

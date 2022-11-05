@@ -70,9 +70,9 @@ public class View {
     // EXIBE VÍNCULOS
     static void displayBindings(Entity ent) {
 
-        Vector<User> users = new Vector<User>();
-        Vector<Project> projs = new Vector<Project>();
-        Vector<Activity> activs = new Vector<Activity>();
+        Vector<User> users = new Vector<>();
+        Vector<Project> projs = new Vector<>();
+        Vector<Activity> activs = new Vector<>();
 
         // Coleta todos os bindings da antidade e separa por tipo.
         try {
@@ -93,7 +93,8 @@ public class View {
         // Exibe pessoas vinculadas.
         if (ent.type() != EntiType.USER) {
             say("  Pessoas vinculadas:");
-            for (User u : users) say("    ID " + u.id() + " - " + u.name() + ", " + u.role());
+            for (User u : users)
+                say("    ID " + u.id() + " - " + u.name() + ", " + u.role().toString().toLowerCase());
         }
 
         // Exibe projetos vinculados.
@@ -352,7 +353,6 @@ public class View {
     static void loadEntities(Vector<Entity> base, String data_file_path) {
 
         JSONParser jparser = new JSONParser();
-        JSONObject jobj;
         JSONArray jarr;
         File fobj = new File(data_file_path);
         String data = "";
