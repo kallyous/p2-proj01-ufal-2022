@@ -6,8 +6,10 @@ DETALHES DE ATIVIDADE
 Opções:
 
 1    -  alterar nome da atividade
-2    -  atribuir atividade a usuário
-3    -  adicionar esta atividade a um projeto
+2    -  adicionar esta atividade a um projeto
+3    -  adicionar usuário a esta atividade
+4    -  definir responsável/supervisor da atividade
+5    -  adicionar tarefas a integrantes do projeto
 
 del  -  excluir atividade permamentemente
 

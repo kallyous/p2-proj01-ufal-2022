@@ -4,10 +4,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Vector;
 
-import static projetator.ConsoleIO.ask;
-import static projetator.ConsoleIO.say;
-import static projetator.ConsoleIO.datetime_formatter;
-
+import static projetator.ConsoleIO.*;
 
 
 public class ProjectViews extends View {
@@ -102,12 +99,12 @@ public class ProjectViews extends View {
         valid = false;
         do {
             try {
-                String datetime_str = ask("Data de início do projeto, no formato AAAA/MM/DD hh:mm");
+                String datetime_str = ask("Data de início do projeto, no formato " + datetime_pattern);
                 date_time = LocalDateTime.parse(datetime_str, datetime_formatter);
                 valid = true;
             }
             catch (Exception ex) {
-                say("Entre uma data válida no formato AAAA/MM/DD hh:mm");
+                say("Entre uma data válida no formato " + datetime_pattern);
             }
         } while (!valid);
         p.setStartTime(date_time);
@@ -118,13 +115,12 @@ public class ProjectViews extends View {
         valid = false;
         do {
             try {
-                String datetime_str = ask("Data de término do projeto, no formato AAAA/MM/DD hh:mm");
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
-                date_time = LocalDateTime.parse(datetime_str, formatter);
+                String datetime_str = ask("Data de término do projeto, no formato " + datetime_pattern);
+                date_time = LocalDateTime.parse(datetime_str, datetime_formatter);
                 valid = true;
             }
             catch (Exception ex) {
-                say("Entre uma data válida no formato AAAA/MM/DD hh:mm");
+                say("Entre uma data válida no formato " + datetime_pattern);
             }
         } while (!valid);
         p.setEndTime(date_time);
@@ -135,13 +131,12 @@ public class ProjectViews extends View {
         valid = false;
         do {
             try {
-                String datetime_str = ask("Data de início da vigência das bolsas, no formato AAAA/MM/DD hh:mm");
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
-                date_time = LocalDateTime.parse(datetime_str, formatter);
+                String datetime_str = ask("Data de início da vigência das bolsas, no formato " + datetime_pattern);
+                date_time = LocalDateTime.parse(datetime_str, datetime_formatter);
                 valid = true;
             }
             catch (Exception ex) {
-                say("Entre uma data válida no formato AAAA/MM/DD hh:mm");
+                say("Entre uma data válida no formato " + datetime_pattern);
             }
         } while (!valid);
         p.setPayStartTime(date_time);
@@ -152,13 +147,12 @@ public class ProjectViews extends View {
         valid = false;
         do {
             try {
-                String datetime_str = ask("Data de término da vigência das bolsas, no formato AAAA/MM/DD hh:mm");
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
-                date_time = LocalDateTime.parse(datetime_str, formatter);
+                String datetime_str = ask("Data de término da vigência das bolsas, no formato " + datetime_pattern);
+                date_time = LocalDateTime.parse(datetime_str, datetime_formatter);
                 valid = true;
             }
             catch (Exception ex) {
-                say("Entre uma data válida no formato AAAA/MM/DD hh:mm");
+                say("Entre uma data válida no formato " + datetime_pattern);
             }
         } while (!valid);
         p.setPayEndTime(date_time);

@@ -57,8 +57,24 @@ public class EntityEncoder {
     }
 
     @SuppressWarnings("unchecked")
-    private static void encodeActivity(Activity actv, JSONObject jobj) {
-        jobj.put("descrição", actv.description());
+    private static void encodeActivity(Activity a, JSONObject jo) {
+
+        JSONArray ja = new JSONArray();
+        JSONObject task;
+
+        jo.put("descrição", a.description());
+        jo.put("responsável", a.supervisor());
+        jo.put("ativ_início", a.startTime().format(datetime_formatter));
+        jo.put("ativ_fim", a.endTime().format(datetime_formatter));
+
+        for (Pair t : a.tasks()) {
+            task = new JSONObject();
+            task.put(t.key(), t.value());
+            ja.add(task);
+        }
+
+        jo.put("tarefas", ja);
+
     }
 
     @SuppressWarnings("unchecked")
