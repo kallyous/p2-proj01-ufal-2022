@@ -1,7 +1,6 @@
 package projetator;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Vector;
 
 import static projetator.ConsoleIO.*;
@@ -189,7 +188,7 @@ public class ProjectViews extends View {
             displayBindings(proj);
 
             say("  Bolsistas:");
-            for (Pair s : proj.pays()) say("    UID " + s.key() + ", valor da bolsa R$" + s.value());
+            for (Pair s : proj.scholarships()) say("    UID " + s.key() + ", valor da bolsa R$" + s.value());
 
             opt = ask("\nO que deseja fazer?");
 
@@ -252,7 +251,7 @@ public class ProjectViews extends View {
         payment_value = Double.parseDouble(ask("Qual o valor da bolsa?"));
 
         Pair<Long, Double> scholarship = new Pair<>(choosen_id, payment_value);
-        p.pays().add(scholarship);
+        p.scholarships().add(scholarship);
     }
 
 

@@ -11,14 +11,14 @@ public class Project extends Entity {
     private LocalDateTime end_time;
     private LocalDateTime pay_start_time;
     private LocalDateTime pay_end_time;
-    private Vector<Pair> pays;
+    private Vector<Pair> scholarships;
 
 
 
     public Project(long id) {
         super(id, EntiType.PROJECT);
         description = "";
-        pays = new Vector<Pair>();
+        scholarships = new Vector<Pair>();
     }
 
 
@@ -40,8 +40,8 @@ public class Project extends Entity {
     public long coordinator() { return coordinator; }
 
     // VALORES DAS BOLSAS, POR ID DE BENEFICIADO E VALOR
-    public void setPays(Vector<Pair> pays) { this.pays = pays; }
-    public Vector<Pair> pays() { return pays ; }
+    public void setScholarships(Vector<Pair> scholarships) { this.scholarships = scholarships; }
+    public Vector<Pair> scholarships() { return scholarships; }
 
     // INÍCIO DA VIGÊNCIA DAS BOLSAS
     public void setPayStartTime(LocalDateTime pay_start_time) { this.pay_start_time = pay_start_time; }

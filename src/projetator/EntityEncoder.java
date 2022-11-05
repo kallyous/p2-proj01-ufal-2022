@@ -47,7 +47,7 @@ public class EntityEncoder {
         jo.put("vigencia_bolsa_início", p.payStartTime().format(datetime_formatter));
         jo.put("vigencia_bolsa_fim", p.payEndTime().format(datetime_formatter));
 
-        for (Pair s : p.pays()) {
+        for (Pair s : p.scholarships()) {
             pay = new JSONObject();
             pay.put(s.key(), s.value());
             ja.add(pay);

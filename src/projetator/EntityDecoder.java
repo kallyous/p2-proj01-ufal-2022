@@ -15,32 +15,32 @@ import static projetator.ConsoleIO.datetime_formatter;
 
 public class EntityDecoder {
 
-    public static Entity decode(JSONObject jobj) {
+    public static Entity decode(JSONObject jo) {
 
-        long id = (long) jobj.get("id");
-        EntiType type = EntiType.valueOf(jobj.get("type").toString());
+        long id = (long) jo.get("id");
+        EntiType type = EntiType.valueOf(jo.get("type").toString());
 
         Entity e;
 
         if (type == EntiType.USER) {
             e = new User(id);
-            e.setName( (String) jobj.get("nome"));
-            ((User) e).setRole(jobj.get("função").toString());
+            e.setName( (String) jo.get("nome"));
+            ((User) e).setRole(jo.get("função").toString());
         }
 
         else if (type == EntiType.PROJECT) {
             e = new Project(id);
-            decodeProject((Project) e, jobj);
+            decodeProject((Project) e, jo);
         }
 
         else if (type == EntiType.ACTIVITY) {
             e = new Activity(id);
-            e.setName( (String) jobj.get("nome"));
+            decodeActivity((Activity) e, jo);
         }
 
         else return null;
 
-        decodeBindings(e, jobj);
+        decodeBindings(e, jo);
 
         return e;
     }
@@ -90,16 +90,45 @@ public class EntityDecoder {
         p.setPayEndTime(date_time);
 
         try {
-            for (Object b : (JSONArray) jo.get("bolsas")) {
-                value = (String) ((JSONObject) b).keySet().stream().findFirst().get();
+            for (Object s : (JSONArray) jo.get("bolsas")) {
+                value = (String) ((JSONObject) s).keySet().stream().findFirst().get();
                 Pair<Long, Double> pay = new Pair<>(
                         Long.parseLong(value),
-                        (double) ((JSONObject) b).get(value) );
-                p.pays().add(pay);
+                        (double) ((JSONObject) s).get(value) );
+                p.scholarships().add(pay);
             }
         }
         catch (NullPointerException ex) {}
 
+    }
+
+
+    private static void decodeActivity(Activity a, JSONObject jo) {
+        String value;
+        LocalDateTime date_time;
+
+        a.setName( (String) jo.get("nome"));
+        a.setSupervisor( (long) jo.get("responsável") );
+        a.setDescription( (String) jo.get("descrição"));
+
+        value = (String) jo.get("ativ_início");
+        date_time = LocalDateTime.parse(value, datetime_formatter);
+        a.setStartTime(date_time);
+
+        value = (String) jo.get("ativ_fim");
+        date_time = LocalDateTime.parse(value, datetime_formatter);
+        a.setEndTime(date_time);
+
+        try {
+            for (Object t : (JSONArray) jo.get("tarefas")) {
+                value = (String) ((JSONObject) t).keySet().stream().findFirst().get();
+                Pair<Long, String> pay = new Pair<>(
+                        Long.parseLong(value),
+                        (String) ((JSONObject) t).get(value) );
+                a.tasks().add(pay);
+            }
+        }
+        catch (NullPointerException ex) {}
     }
 
 
